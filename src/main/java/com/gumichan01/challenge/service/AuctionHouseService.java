@@ -16,6 +16,10 @@ public class AuctionHouseService {
     public List<AuctionHouse> findAll() {
         return repository.findAll();
     }
+
+    public AuctionHouse save(AuctionHouse auctionHouse) {
+        return repository.save(auctionHouse);
+    }
     // TODO register a new house
     // TODO delete a house
 }

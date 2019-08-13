@@ -4,6 +4,8 @@ import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,5 +24,10 @@ public class AuctionHouseController {
     @GetMapping("/houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
         return service.findAll();
+    }
+
+    @PostMapping("/houses")
+    public AuctionHouse registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
+        return service.save(auctionHouse);
     }
 }
