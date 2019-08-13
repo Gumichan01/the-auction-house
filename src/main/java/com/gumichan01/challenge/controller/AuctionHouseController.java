@@ -23,11 +23,11 @@ public class AuctionHouseController {
 
     @GetMapping("/houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
-        return service.findAll();
+        return service.retrieveAllAuctionHouses();
     }
 
     @PostMapping("/houses")
     public AuctionHouse registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
-        return service.save(auctionHouse);
+        return service.registerAuctionHouse(auctionHouse);
     }
 }

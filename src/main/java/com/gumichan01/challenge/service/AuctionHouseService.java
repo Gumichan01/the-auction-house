@@ -13,11 +13,11 @@ public class AuctionHouseService {
     @Autowired
     private AuctionHouseRepository repository;
 
-    public List<AuctionHouse> findAll() {
+    public List<AuctionHouse> retrieveAllAuctionHouses() {
         return repository.findAll();
     }
 
-    public AuctionHouse save(AuctionHouse auctionHouse) {
+    public AuctionHouse registerAuctionHouse(AuctionHouse auctionHouse) {
         return repository.save(auctionHouse);
     }
     // TODO register a new house
