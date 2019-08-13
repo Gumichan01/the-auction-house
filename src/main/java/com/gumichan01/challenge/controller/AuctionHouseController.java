@@ -1,14 +1,18 @@
 package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
+import com.gumichan01.challenge.persistence.AuctionHouseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class AuctionHouseController {
+
+    @Autowired
+    private AuctionHouseRepository repository;
 
     @GetMapping("/")
     public String index() {
@@ -17,6 +21,6 @@ public class AuctionHouseController {
 
     @GetMapping("/houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
-        return Arrays.asList(new AuctionHouse("miku house"), new AuctionHouse("luka house"));
+        return repository.findAll();
     }
 }
