@@ -20,12 +20,4 @@ public class AuctionHouse {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
-    public String toString() {
-        return "AuctionHouse{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
