@@ -1,8 +1,10 @@
 package com.gumichan01.challenge.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +13,7 @@ public class AuctionHouse {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String name;
 
     public AuctionHouse() {
