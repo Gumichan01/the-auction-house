@@ -2,7 +2,7 @@ package com.gumichan01.challenge.service;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
-import com.gumichan01.challenge.service.exception.AlreadyExistException;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -36,9 +36,9 @@ public class AuctionHouseServiceTest {
         assertThat(service.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
     }
 
-    @Test(expected = AlreadyExistException.class)
+    @Test(expected = AlreadyRegisteredException.class)
     public void shouldNotRegisterTheAuctionHouseTwice() {
-        final AuctionHouse auctionHouse = new AuctionHouse("mock house");
+        final AuctionHouse auctionHouse = new AuctionHouse("another mock house");
         when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
         service.registerAuctionHouse(auctionHouse);
         when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);

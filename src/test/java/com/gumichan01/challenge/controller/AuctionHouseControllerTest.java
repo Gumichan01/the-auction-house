@@ -35,6 +35,7 @@ public class AuctionHouseControllerTest {
         AuctionHouse house = new AuctionHouse("test controller");
         when(service.registerAuctionHouse(house)).thenReturn(house);
         ResponseEntity<AuctionHouse> response = controller.registerAuctionHouse(house);
+
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(house);

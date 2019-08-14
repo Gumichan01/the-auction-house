@@ -2,7 +2,7 @@ package com.gumichan01.challenge.service;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
-import com.gumichan01.challenge.service.exception.AlreadyExistException;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class AuctionHouseService {
     public AuctionHouse registerAuctionHouse(AuctionHouse auctionHouse) {
         AuctionHouse house = repository.findByName(auctionHouse.getName());
         if (house != null) {
-            throw new AlreadyExistException("The house is already registered");
+            throw new AlreadyRegisteredException("The house is already registered");
         }
         return repository.save(auctionHouse);
     }

@@ -1,8 +1,8 @@
 package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
-import com.gumichan01.challenge.service.exception.AlreadyExistException;
 import com.gumichan01.challenge.service.AuctionHouseService;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,8 @@ public class AuctionHouseController {
         return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
     }
 
-    @ExceptionHandler(AlreadyExistException.class)
-    public ResponseEntity<String> handleError(AlreadyExistException e) {
+    @ExceptionHandler(AlreadyRegisteredException.class)
+    public ResponseEntity<String> handleError(AlreadyRegisteredException e) {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }

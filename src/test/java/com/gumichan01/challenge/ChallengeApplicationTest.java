@@ -26,37 +26,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ChallengeApplicationTest {
 
+    private static final String AUCTION_HOUSES_URL = "/houses";
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void shouldReturnEmptyListOfAuctionHouses() throws Exception {
-        String url = "/houses";
         String expectedJsonContent = "[]";
-        this.mockMvc.perform(get(url)).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get(AUCTION_HOUSES_URL)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().json(expectedJsonContent));
     }
 
     @Test
     public void addAuctionHouseByProvidingItsNameAndReturnTheObjectInJsonFormat() throws Exception {
-        String url = "/houses";
         String expectedJsonContent = "{\"id\":1,\"name\"=\"mock house\"}";
         String jsonRequestContent = jsonOf(new AuctionHouse("mock house"));
-        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
+
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonRequestContent))
                 .andDo(print()).andExpect(status().isCreated())
                 .andExpect(content().json(expectedJsonContent));
     }
 
     @Test
     public void shouldNotregisterTheAuctionHouseTwice() throws Exception {
-        String url = "/houses";
-        String expectedJsonContent = "{\"id\":1,\"name\"=\"mock house\"}";
         String jsonRequestContent = jsonOf(new AuctionHouse("mock house"));
-        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonRequestContent))
                 .andExpect(status().isCreated());
 
         // This must fail
-        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonRequestContent))
                 .andDo(print()).andExpect(status().isConflict());
 
     }
