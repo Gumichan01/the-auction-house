@@ -29,7 +29,7 @@ public class AuctionHouseService {
     public AuctionHouse registerAuctionHouse(AuctionHouse auctionHouse) {
         AuctionHouse house = repository.findByName(auctionHouse.getName());
         if (house != null) {
-            throw new AlreadyRegisteredException("The house is already registered");
+            throw new AlreadyRegisteredException("The house is already registered.\n");
         }
         logger.info("register " + auctionHouse.getName());
         return repository.save(auctionHouse);
@@ -40,12 +40,12 @@ public class AuctionHouseService {
         logger.info("delete by id: " + id);
 
         if (id == null) {
-            throw new BadRequestException("Invalid request: no identifier provided.");
+            throw new BadRequestException("Invalid request: no identifier provided.\n");
         }
 
         Optional<AuctionHouse> optionalAuctionHouse = repository.findById(id);
         if (!optionalAuctionHouse.isPresent()) {
-            throw new ResourceNotFoundException("Auction house to delete not found.");
+            throw new ResourceNotFoundException("Auction house to delete not found.\n");
         }
 
         logger.info("delete the auction house: " + optionalAuctionHouse.get());
