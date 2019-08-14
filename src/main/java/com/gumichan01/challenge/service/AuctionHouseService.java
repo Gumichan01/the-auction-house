@@ -3,10 +3,12 @@ package com.gumichan01.challenge.service;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
+import com.gumichan01.challenge.service.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class AuctionHouseService {
     }
 
     public void deleteAuctionHouse(Long id) {
+
+        if (id == null) {
+            throw new BadRequestException("Invalid request: no identifier provided");
+        }
+
         logger.info("delete the auction house by its id: " + id);
         repository.deleteById(id);
     }
