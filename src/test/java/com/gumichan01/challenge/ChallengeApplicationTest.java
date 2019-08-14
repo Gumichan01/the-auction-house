@@ -49,7 +49,16 @@ public class ChallengeApplicationTest {
     }
 
     @Test
-    public void shouldNotregisterTheAuctionHouseTwice() throws Exception {
+    public void shouldNotRegisterAuctionHouseWithoutName() throws Exception {
+        String jsonRequestContent = jsonOf(new AuctionHouse(null));
+
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonRequestContent))
+                .andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldNotRegisterTheAuctionHouseTwice() throws Exception {
         String jsonRequestContent = jsonOf(new AuctionHouse("mock house"));
         this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonRequestContent))
