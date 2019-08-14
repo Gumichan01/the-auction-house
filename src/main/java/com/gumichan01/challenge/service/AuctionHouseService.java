@@ -31,7 +31,7 @@ public class AuctionHouseService {
         if (house != null) {
             throw new AlreadyRegisteredException("The house is already registered");
         }
-        logger.info("register " + auctionHouse);
+        logger.info("register " + auctionHouse.getName());
         return repository.save(auctionHouse);
     }
 
