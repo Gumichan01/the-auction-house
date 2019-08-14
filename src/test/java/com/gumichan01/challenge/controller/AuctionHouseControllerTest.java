@@ -2,7 +2,6 @@ package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionHouseService;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
