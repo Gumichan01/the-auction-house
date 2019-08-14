@@ -47,6 +47,20 @@ public class ChallengeApplicationTest {
                 .andExpect(content().json(expectedJsonContent));
     }
 
+    @Test
+    public void shouldNotregisterTheAuctionHouseTwice() throws Exception {
+        String url = "/houses";
+        String expectedJsonContent = "{\"id\":1,\"name\"=\"mock house\"}";
+        String jsonRequestContent = jsonOf(new AuctionHouse("mock house"));
+        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
+                .andExpect(status().isCreated());
+
+        // This must fail
+        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
+                .andDo(print()).andExpect(status().isConflict());
+
+    }
+
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
