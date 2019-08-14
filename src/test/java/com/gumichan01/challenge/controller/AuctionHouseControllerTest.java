@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 
@@ -32,8 +34,9 @@ public class AuctionHouseControllerTest {
     public void addAuctionHouseByProvidingItsNameAndReturnTheObjectInJsonFormat() throws Exception {
         AuctionHouse house = new AuctionHouse("test controller");
         when(service.registerAuctionHouse(house)).thenReturn(house);
-        AuctionHouse auctionHouse = controller.registerAuctionHouse(house);
-        assertThat(auctionHouse).isNotNull();
-        assertThat(auctionHouse).isEqualTo(house);
+        ResponseEntity<AuctionHouse> response = controller.registerAuctionHouse(house);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isEqualTo(house);
     }
 }

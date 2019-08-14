@@ -43,7 +43,7 @@ public class ChallengeApplicationTest {
         String expectedJsonContent = "{\"id\":1,\"name\"=\"mock house\"}";
         String jsonRequestContent = jsonOf(new AuctionHouse("mock house"));
         this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent))
-                .andDo(print()).andExpect(status().isOk())
+                .andDo(print()).andExpect(status().isCreated())
                 .andExpect(content().json(expectedJsonContent));
     }
 
