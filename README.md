@@ -36,3 +36,8 @@ List all auction houses:
 ```
 curl localhost:8080/houses
 ```
+
+Delete an auction house:
+```
+curl -X DELETE localhost:8080/houses/{id}
+```
