@@ -32,6 +32,11 @@ public class AuctionHouseService {
             throw new AlreadyRegisteredException("The house is already registered.\n");
         }
         logger.info("register " + auctionHouse.getName());
+
+        if (auctionHouse.getName() == null) {
+            throw new BadRequestException("The house must have a name.\n");
+        }
+
         return repository.save(auctionHouse);
     }
 
