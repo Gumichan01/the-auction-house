@@ -18,14 +18,11 @@ public class AuctionHouseService {
     }
 
     public AuctionHouse registerAuctionHouse(AuctionHouse auctionHouse) {
-        // Test if the name is null
-        // Test if the name is already used
         AuctionHouse house = repository.findByName(auctionHouse.getName());
         if (house != null) {
             throw new AlreadyExistException("The house is already registered");
         }
         return repository.save(auctionHouse);
     }
-    // TODO register a new house
     // TODO delete a house
 }

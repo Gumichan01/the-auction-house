@@ -34,4 +34,13 @@ public class AuctionHouseServiceTest {
         when(repositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
         assertThat(service.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
     }
+
+    @Test(expected = AlreadyExistException.class)
+    public void shouldNotRegisterTheAuctionHouseTwice() {
+        final AuctionHouse auctionHouse = new AuctionHouse("mock house");
+        when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
+        service.registerAuctionHouse(auctionHouse);
+        when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);
+        service.registerAuctionHouse(auctionHouse);
+    }
 }
