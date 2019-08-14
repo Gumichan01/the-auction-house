@@ -14,8 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,17 +62,14 @@ public class ChallengeApplicationTest {
 
     }
 
-    /*@Test
+    @Test
     public void deleteAuctionHouseByIdAndGetNoContent() throws Exception {
 
-        String deleteUrl = AUCTION_HOUSES_URL + "/";
-        String jsonRequestContent = "{\"id\":1}";
+        String deleteUrl = AUCTION_HOUSES_URL + "/1";
 
-        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonRequestContent))
-                .andDo(print()).andExpect(status().isCreated())
-                .andExpect(content().json(jsonRequestContent));
-    }*/
+        this.mockMvc.perform(delete(deleteUrl).contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print()).andExpect(status().isNoContent());
+    }
 
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);

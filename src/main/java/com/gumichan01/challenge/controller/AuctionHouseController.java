@@ -32,7 +32,7 @@ public class AuctionHouseController {
         return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
     }
 
-    @PostMapping("/houses/{id}")
+    @DeleteMapping("/houses/{id}")
     public ResponseEntity<Void> deleteAuctionHouse(Long id) {
         return ResponseEntity.noContent().build();
     }
