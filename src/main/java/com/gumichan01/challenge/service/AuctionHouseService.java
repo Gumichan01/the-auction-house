@@ -37,6 +37,8 @@ public class AuctionHouseService {
 
     public void deleteAuctionHouse(Long id) {
 
+        logger.info("delete by id: " + id);
+
         if (id == null) {
             throw new BadRequestException("Invalid request: no identifier provided.");
         }

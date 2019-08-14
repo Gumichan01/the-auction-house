@@ -34,6 +34,7 @@ public class AuctionHouseController {
 
     @DeleteMapping("/houses/{id}")
     public ResponseEntity<Void> deleteAuctionHouse(Long id) {
+        service.deleteAuctionHouse(id);
         return ResponseEntity.noContent().build();
     }
 
