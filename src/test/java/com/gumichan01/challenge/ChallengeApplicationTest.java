@@ -66,7 +66,14 @@ public class ChallengeApplicationTest {
     public void deleteAuctionHouseByIdAndGetNoContent() throws Exception {
 
         String deleteUrl = AUCTION_HOUSES_URL + "/1";
+        AuctionHouse mockHouse = new AuctionHouse("mock house");
 
+        // Since the id of the house is generated in the real application, I must manually provide it
+        mockHouse.setId(1L);
+        String jsonRequestContent = jsonOf(mockHouse);
+
+        // Add the house first in order to delete it
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonRequestContent)).andDo(print());
         this.mockMvc.perform(delete(deleteUrl).contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print()).andExpect(status().isNoContent());
     }
