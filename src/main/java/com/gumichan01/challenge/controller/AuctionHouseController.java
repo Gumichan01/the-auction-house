@@ -32,6 +32,11 @@ public class AuctionHouseController {
         return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
     }
 
+    @PostMapping("/houses/{id}")
+    public ResponseEntity<Void> deleteAuctionHouse(Long id) {
+        return ResponseEntity.noContent().build();
+    }
+
     @ExceptionHandler(AlreadyRegisteredException.class)
     public ResponseEntity<String> handleError(AlreadyRegisteredException e) {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);

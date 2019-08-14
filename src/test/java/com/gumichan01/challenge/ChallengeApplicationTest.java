@@ -63,6 +63,18 @@ public class ChallengeApplicationTest {
 
     }
 
+    /*@Test
+    public void deleteAuctionHouseByIdAndGetNoContent() throws Exception {
+
+        String deleteUrl = AUCTION_HOUSES_URL + "/";
+        String jsonRequestContent = "{\"id\":1}";
+
+        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonRequestContent))
+                .andDo(print()).andExpect(status().isCreated())
+                .andExpect(content().json(jsonRequestContent));
+    }*/
+
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }

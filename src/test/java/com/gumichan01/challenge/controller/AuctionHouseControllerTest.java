@@ -2,6 +2,7 @@ package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionHouseService;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,5 +41,12 @@ public class AuctionHouseControllerTest {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(house);
+    }
+
+    @Test
+    public void deleteAnExistingAuctionHouseAndReturnNoContent() throws Exception {
+        AuctionHouse house = new AuctionHouse("test controller");
+        house.setId(1L);
+        controller.deleteAuctionHouse(house.getId());
     }
 }
