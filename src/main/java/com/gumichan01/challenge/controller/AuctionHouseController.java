@@ -1,12 +1,12 @@
 package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
+import com.gumichan01.challenge.service.AlreadyExistException;
 import com.gumichan01.challenge.service.AuctionHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +27,13 @@ public class AuctionHouseController {
     }
 
     @PostMapping("/houses")
-    public AuctionHouse registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
-        return service.registerAuctionHouse(auctionHouse);
+    public ResponseEntity<AuctionHouse> registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
+        AuctionHouse registeredAuctionHouse = service.registerAuctionHouse(auctionHouse);
+        return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<String> handleError(AlreadyExistException e) {
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }
