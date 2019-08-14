@@ -33,6 +33,7 @@ public class AuctionHouseControllerTest {
     @Test
     public void addAuctionHouseByProvidingItsNameAndReturnTheObjectInJsonFormat() throws Exception {
         AuctionHouse house = new AuctionHouse("test controller");
+        house.setId(1L);
         when(service.registerAuctionHouse(house)).thenReturn(house);
         ResponseEntity<AuctionHouse> response = controller.registerAuctionHouse(house);
 
