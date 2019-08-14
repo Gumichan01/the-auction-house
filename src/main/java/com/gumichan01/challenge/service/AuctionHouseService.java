@@ -4,6 +4,7 @@ import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
+import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuctionHouseService {
@@ -36,11 +38,15 @@ public class AuctionHouseService {
     public void deleteAuctionHouse(Long id) {
 
         if (id == null) {
-            throw new BadRequestException("Invalid request: no identifier provided");
+            throw new BadRequestException("Invalid request: no identifier provided.");
         }
 
-        logger.info("delete the auction house by its id: " + id);
+        Optional<AuctionHouse> optionalAuctionHouse = repository.findById(id);
+        if (!optionalAuctionHouse.isPresent()) {
+            throw new ResourceNotFoundException("Auction house to delete not found.");
+        }
+
+        logger.info("delete the auction house: " + optionalAuctionHouse.get());
         repository.deleteById(id);
     }
-    // TODO delete a house
 }
