@@ -1,4 +1,4 @@
-package com.gumichan01.challenge.service;
+package com.gumichan01.challenge.service.exception;
 
 public class AlreadyExistException extends RuntimeException {
 

@@ -2,6 +2,7 @@ package com.gumichan01.challenge.service;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
+import com.gumichan01.challenge.service.exception.AlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
