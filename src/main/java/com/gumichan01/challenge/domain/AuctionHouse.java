@@ -47,7 +47,7 @@ public class AuctionHouse {
             return false;
 
         AuctionHouse that = (AuctionHouse) o;
-        return id.equals(that.id) && name.equals(that.name);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
