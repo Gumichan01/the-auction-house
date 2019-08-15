@@ -35,7 +35,6 @@ public class AuctionHouseServiceTest {
     @Test
     public void shouldReturnRegisteredAuctionHouse() {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house");
-        auctionHouse.setId(1L);
         when(repositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
         assertThat(service.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
     }
@@ -43,7 +42,6 @@ public class AuctionHouseServiceTest {
     @Test(expected = AlreadyRegisteredException.class)
     public void shouldNotRegisterTheAuctionHouseTwice() {
         final AuctionHouse auctionHouse = new AuctionHouse("another mock house");
-        auctionHouse.setId(1L);
         when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
         service.registerAuctionHouse(auctionHouse);
         when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);

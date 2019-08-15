@@ -97,7 +97,6 @@ public class AuctionHouseControllerTest {
         String deleteUrl = AUCTION_HOUSES_URL + "/1";
         AuctionHouse mockHouse = new AuctionHouse("mock house");
         // Since the id of the house is generated in the application in production, I must manually provide it
-        mockHouse.setId(1L);
         String jsonRequestContent = jsonOf(mockHouse);
 
         // Add the house first in order to delete it
