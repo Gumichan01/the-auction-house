@@ -72,6 +72,11 @@ public class AuctionControllerTest {
                 .andExpect(content().json(expectedJsonContent));
     }
 
+    @Test
+    public void shouldReturnBadRequestError() throws Exception {
+        this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
+    }
+
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
