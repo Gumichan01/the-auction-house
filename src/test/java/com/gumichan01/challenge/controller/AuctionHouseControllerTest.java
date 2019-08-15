@@ -41,11 +41,4 @@ public class AuctionHouseControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(house);
     }
-
-    @Test
-    public void deleteAnExistingAuctionHouseAndReturnNoContent() throws Exception {
-        AuctionHouse house = new AuctionHouse("test controller");
-        house.setId(1L);
-        controller.deleteAuctionHouse(house.getId());
-    }
 }

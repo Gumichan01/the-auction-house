@@ -51,7 +51,7 @@ public class AuctionHouseServiceTest {
     }
 
     @Test
-    public void shouldReturnNothingWhenTheRegisteredHouseIsDeleted() {
+    public void shouldNotFailWhenTheRegisteredHouseIsDeleted() {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house to delete");
         final Optional<AuctionHouse> optionalHouse = Optional.of(auctionHouse);
         auctionHouse.setId(1L);
