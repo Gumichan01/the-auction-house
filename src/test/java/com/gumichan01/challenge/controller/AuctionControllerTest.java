@@ -6,6 +6,7 @@ import com.gumichan01.challenge.controller.dto.AuctionDto;
 import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionService;
+import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +76,12 @@ public class AuctionControllerTest {
     @Test
     public void shouldReturnBadRequestError() throws Exception {
         this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturnNotFoundResourceErrorIfTheHouseDoesNotExist() throws Exception {
+        when(service.retieveAuctions(42L)).thenThrow(ResourceNotFoundException.class);
+        this.mockMvc.perform(get(AUCTION_URL + "/42")).andDo(print()).andExpect(status().isNotFound());
     }
 
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
