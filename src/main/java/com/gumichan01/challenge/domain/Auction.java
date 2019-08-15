@@ -33,6 +33,9 @@ public class Auction {
     @JoinColumn(name = "house_id")
     private AuctionHouse auctionHouse;
 
+    public Auction() {
+    }
+
     public Auction(String name, String description, Date startingTime, Date endTime, Double startPrice,
                    AuctionHouse auctionHouse) {
         this.name = name;

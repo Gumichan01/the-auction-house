@@ -2,6 +2,7 @@ package com.gumichan01.challenge.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gumichan01.challenge.domain.Auction;
 
 import java.util.Date;
 
@@ -22,6 +23,16 @@ public class AuctionDto {
     private Double currentPrice;
     @JsonProperty(value = "house_id", required = true)
     private Long houseId;
+
+    public AuctionDto(Auction auction) {
+        this.name = auction.getName();
+        this.description = auction.getDescription();
+        this.startingTime = auction.getStartingTime();
+        this.endTime = auction.getEndTime();
+        this.startPrice = auction.getStartPrice();
+        this.currentPrice = auction.getCurrentPrice();
+        this.houseId = auction.getAuctionHouse().getId();
+    }
 
     public AuctionDto(String name, String description, Date startingTime, Date endTime, Double startPrice, Double currentPrice, Long houseId) {
         this.name = name;
