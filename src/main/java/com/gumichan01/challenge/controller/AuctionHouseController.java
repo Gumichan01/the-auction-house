@@ -22,11 +22,6 @@ public class AuctionHouseController {
     @Autowired
     private AuctionHouseService service;
 
-    @GetMapping("/")
-    public String index() {
-        return "Challenge accepted - It works!";
-    }
-
     @GetMapping("/houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
         return service.retrieveAllAuctionHouses();
