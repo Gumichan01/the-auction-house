@@ -28,11 +28,15 @@ public class ChallengeApplication {
             instance.add(Calendar.DAY_OF_MONTH, 1);
             Date endTime = instance.getTime();
             AuctionHouse auctionHouse = new AuctionHouse("gumi house");
-            double startPrice = 1.0;
+            double startPrice = 42.0;
             houseRepository.save(auctionHouse);
+            AuctionHouse auctionHouse1 = new AuctionHouse("l");
+            houseRepository.save(auctionHouse1);
+            AuctionHouse auctionHouse2 = new AuctionHouse("g");
+            houseRepository.save(auctionHouse2);
             auctionRepository.save(new Auction("gumi auction", "lorem ipsum",startTime, endTime, startPrice, auctionHouse));
-            auctionRepository.save(new Auction("baka auction", "lorem",startTime, endTime, startPrice, auctionHouse));
-            auctionRepository.save(new Auction("lalalala", "lorem",startTime, endTime, startPrice, auctionHouse));
+            auctionRepository.save(new Auction("baka auction", "lorem",startTime, endTime, startPrice, auctionHouse1));
+            auctionRepository.save(new Auction("lalalala", "lorem",startTime, endTime, startPrice, auctionHouse2));
         };
     }
 }
