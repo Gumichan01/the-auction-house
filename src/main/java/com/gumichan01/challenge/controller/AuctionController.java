@@ -34,9 +34,7 @@ public class AuctionController {
 
     @GetMapping("/houses/auctions/{house_id}")
     public List<AuctionDto> retrieveAuctions(@PathVariable("house_id") Long houseId) {
-        logger.info("Get auctions from house by this id: " + houseId);
         List<Auction> auctions = service.retieveAuctions(houseId);
-        logger.info("size: " + auctions.size());
         return generateDto(auctions);
     }
 
