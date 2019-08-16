@@ -17,16 +17,16 @@ public class Auction {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "starting_time", nullable = false)
+    @Column(nullable = false)
     private Date startingTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(nullable = false)
     private Date endTime;
 
-    @Column(name = "start_price", nullable = false)
+    @Column(nullable = false)
     private Double startPrice;
 
-    @Column(name = "current_price", nullable = false)
+    @Column(nullable = false)
     private Double currentPrice;
 
     @OneToOne
