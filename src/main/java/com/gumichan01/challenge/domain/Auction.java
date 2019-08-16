@@ -1,5 +1,7 @@
 package com.gumichan01.challenge.domain;
 
+import com.gumichan01.challenge.controller.dto.AuctionDto;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -45,6 +47,15 @@ public class Auction {
         this.startPrice = startPrice;
         this.currentPrice = startPrice;
         this.auctionHouse = auctionHouse;
+    }
+
+    public Auction(AuctionDto auctionDto) {
+        this.name = auctionDto.getName();
+        this.description = auctionDto.getDescription();
+        this.startingTime = auctionDto.getStartingTime();
+        this.endTime = auctionDto.getEndTime();
+        this.startPrice = auctionDto.getStartPrice();
+        this.currentPrice = auctionDto.getCurrentPrice(); // TODO What if the current price value violates class invariants?
     }
 
     public Long getId() {

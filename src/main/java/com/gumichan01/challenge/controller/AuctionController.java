@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,8 @@ public class AuctionController {
 
     @PostMapping("/houses/auctions/")
     public ResponseEntity<AuctionDto> registerAuction(@RequestBody AuctionDto auctionDto) {
-        return ResponseEntity.created(URI.create("")).build();
+        Auction auction = service.registerAuction(auctionDto);
+        return new ResponseEntity<>(new AuctionDto(auction), HttpStatus.CREATED);
     }
 
     private List<AuctionDto> generateDto(List<Auction> auctions) {
