@@ -38,7 +38,8 @@ public class AuctionService {
 
     public Auction registerAuction(AuctionDto auctionDto) {
 
-        logger.info("auction param: " + auctionDto);
+        logger.info("auction param: ");
+        logger.info(auctionDto.toString());
 
         if (!isValidAuctionDto(auctionDto)) {
             throw new BadRequestException("Invalid DTO: " + auctionDto + ".\n");
@@ -50,7 +51,8 @@ public class AuctionService {
         }
 
         AuctionHouse house = houseById.get();
-        logger.info("house associated to the auction to save: " + house);
+        logger.info("house related to the auction: ");
+        logger.info(house.toString());
         Auction auctionToSave = new Auction(auctionDto);
         auctionToSave.setAuctionHouse(house);
         logger.info("save " + auctionToSave);
