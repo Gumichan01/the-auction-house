@@ -128,8 +128,7 @@ public class Auction {
             return false;
 
         Auction auction = (Auction) o;
-        return Objects.equals(id, auction.id) &&
-                Objects.equals(name, auction.name) &&
+        return Objects.equals(name, auction.name) &&
                 Objects.equals(description, auction.description) &&
                 Objects.equals(startingTime, auction.startingTime) &&
                 Objects.equals(endTime, auction.endTime) &&
@@ -139,7 +138,7 @@ public class Auction {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, startingTime, endTime, startPrice, auctionHouse);
+        return Objects.hash(name, description, startingTime, endTime, startPrice, auctionHouse);
     }
 
     @Override

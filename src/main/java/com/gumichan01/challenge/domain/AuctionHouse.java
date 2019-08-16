@@ -47,12 +47,12 @@ public class AuctionHouse {
             return false;
 
         AuctionHouse that = (AuctionHouse) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
 
     @Override
