@@ -30,6 +30,8 @@ public class AuctionController {
         return "Challenge accepted - It works!";
     }
 
+    // TODO bonus, list auctions based on their status - not started, running, terminated
+
     @GetMapping("/houses/auctions/{house_id}")
     public List<AuctionDto> retrieveAuctions(@PathVariable("house_id") Long houseId) {
         List<Auction> auctions = service.retrieveAuctionsBy(houseId);
@@ -40,6 +42,12 @@ public class AuctionController {
     public ResponseEntity<AuctionDto> registerAuction(@RequestBody AuctionDto auctionDto) {
         Auction auction = service.registerAuction(auctionDto);
         return new ResponseEntity<>(new AuctionDto(auction), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/houses/auctions/{id}")
+    public ResponseEntity<Void> deleteAuction(@PathVariable Long id) {
+        //Auction auction = service.deleteAuction(id);
+        return ResponseEntity.noContent().build();
     }
 
     private List<AuctionDto> generateDto(List<Auction> auctions) {
