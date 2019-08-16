@@ -50,6 +50,7 @@ public class Auction {
     }
 
     public Auction(AuctionDto auctionDto) {
+        assert auctionDto != null;
         this.name = auctionDto.getName();
         this.description = auctionDto.getDescription();
         this.startingTime = auctionDto.getStartingTime();
