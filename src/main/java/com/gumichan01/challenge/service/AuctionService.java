@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuctionService {
@@ -55,30 +56,50 @@ public class AuctionService {
                     ") >= (end_time = " + auctionDto.getEndTime() + ").\n");
         }
 
-        // extract method?
-        Optional<AuctionHouse> houseById = houseRepository.findById(auctionDto.getHouseId());
-        if (!houseById.isPresent()) {
-            throw new ResourceNotFoundException("Cannot create the auction. The house to link with does not exist.\n");
-        }
-
-        AuctionHouse house = houseById.get();
-        // end extract?
+        AuctionHouse house = getAuctionHouseBy(auctionDto.getHouseId());
         logger.info("house related to the auction: ");
         logger.info(house.toString());
         Auction auctionToSave = new Auction(auctionDto);
         auctionToSave.setAuctionHouse(house);
 
-        // TODO prevent getting two identical auctions (business)
+        List<Auction> auctionsInConflictWithCurrrentAuction = findAuctionsInConflictWithCurrentAuction(house, auctionToSave);
+        if (!auctionsInConflictWithCurrrentAuction.isEmpty()) {
+            logger.warn("Oups, " + auctionsInConflictWithCurrrentAuction.size() + " auction(s) in conflict");
+            throw new InconsistentAuctionException("The auction to register\n -" + auctionToSave +
+                    "- has a duration that overlap one or several auction(s) related to the same house.\n");
+        }
+
+        logger.info("save " + auctionToSave);
+        return auctionRepository.save(auctionToSave);
+    }
+
+    private List<Auction> findAuctionsInConflictWithCurrentAuction(AuctionHouse house, Auction auctionToSave) {
         List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(house.getId());
         if (auctionsByHouseId.contains(auctionToSave)) {
             throw new AlreadyRegisteredException("The auction is already registered.\n");
         }
 
-        // TODO prevent getting two auctions with same [starting_time, end_time] interval
-        // TODO prevent getting two auctions with two overlapped [starting_time, end_time] intervals
+        return auctionsByHouseId.stream()
+                .filter(auction -> hasOverlappingTimeInterval(auction, auctionToSave)).collect(Collectors.toList());
+    }
 
-        logger.info("save " + auctionToSave);
-        return auctionRepository.save(auctionToSave);
+    private AuctionHouse getAuctionHouseBy(Long houseId) {
+        Optional<AuctionHouse> houseById = houseRepository.findById(houseId);
+        if (!houseById.isPresent()) {
+            throw new ResourceNotFoundException("Cannot create the auction. The house to link with does not exist.\n");
+        }
+
+        return houseById.get();
+    }
+
+    // No need to check the dates to null, because it must exists when the auction is created. This is a business constraint.
+    private boolean hasOverlappingTimeInterval(Auction auction, Auction auctionToSave) {
+        return inDateInterval(auction.getEndTime(), auctionToSave.getStartingTime(), auctionToSave.getEndTime()) ||
+                inDateInterval(auctionToSave.getEndTime(), auction.getStartingTime(), auction.getEndTime());
+    }
+
+    private boolean inDateInterval(Date refTime, Date startingTime, Date endTime) {
+        return startingTime.before(refTime) && endTime.after(refTime);
     }
 
     private boolean isConsistent(AuctionDto auctionDto) {
