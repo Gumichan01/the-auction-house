@@ -5,6 +5,7 @@ import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.InconsistentAuctionException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
@@ -68,6 +69,11 @@ public class AuctionService {
         auctionToSave.setAuctionHouse(house);
 
         // TODO prevent getting two identical auctions (business)
+        List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(house.getId());
+        if (auctionsByHouseId.contains(auctionToSave)) {
+            throw new AlreadyRegisteredException("The auction is already registered");
+        }
+
         // TODO prevent getting two auctions with same [starting_time, end_time] interval
         // TODO prevent getting two auctions with two overlapped [starting_time, end_time] intervals
 
