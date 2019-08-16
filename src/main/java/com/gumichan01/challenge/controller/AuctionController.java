@@ -4,6 +4,7 @@ import com.gumichan01.challenge.controller.dto.AuctionDto;
 import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.service.AuctionHouseService;
 import com.gumichan01.challenge.service.AuctionService;
+import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -43,6 +44,13 @@ public class AuctionController {
 
     private List<AuctionDto> generateDto(List<Auction> auctions) {
         return auctions.stream().map(AuctionDto::new).collect(Collectors.toList());
+    }
+
+    //  TODO create a global exception handler - DUPLICATED CODE
+    @ExceptionHandler(AlreadyRegisteredException.class)
+    public ResponseEntity<String> handleError(AlreadyRegisteredException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(BadRequestException.class)

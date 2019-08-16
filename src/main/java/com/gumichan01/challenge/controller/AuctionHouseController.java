@@ -39,6 +39,7 @@ public class AuctionHouseController {
         return ResponseEntity.noContent().build();
     }
 
+    //  TODO create a global exception handler - DUPLICATED CODE
     @ExceptionHandler(AlreadyRegisteredException.class)
     public ResponseEntity<String> handleError(AlreadyRegisteredException e) {
         logger.error(e.getMessage());

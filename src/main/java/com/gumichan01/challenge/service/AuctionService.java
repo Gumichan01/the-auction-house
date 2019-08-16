@@ -71,7 +71,7 @@ public class AuctionService {
         // TODO prevent getting two identical auctions (business)
         List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(house.getId());
         if (auctionsByHouseId.contains(auctionToSave)) {
-            throw new AlreadyRegisteredException("The auction is already registered");
+            throw new AlreadyRegisteredException("The auction is already registered.\n");
         }
 
         // TODO prevent getting two auctions with same [starting_time, end_time] interval
