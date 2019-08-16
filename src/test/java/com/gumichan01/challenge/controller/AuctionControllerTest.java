@@ -49,7 +49,7 @@ public class AuctionControllerTest {
     }
 
     @Test
-    public void shouldREturnEmptyListOfAuctionsNotRelatedToAnNonExistingHouse() throws Exception {
+    public void shouldReturnEmptyListOfAuctionsNotRelatedToAnNonExistingHouse() throws Exception {
         String expectedJsonContent = "[]";
         String AUCTION_TO_HOUSE_BY_ID_URL = AUCTION_URL + "/42";
         this.mockMvc.perform(get(AUCTION_TO_HOUSE_BY_ID_URL)).andDo(print()).andExpect(status().isOk())
@@ -57,31 +57,8 @@ public class AuctionControllerTest {
     }
 
     @Test
-    public void shouldReturnNonEmptyListAndSendHttpOk() throws Exception {
-        String AUCTION_TO_HOUSE_BY_ID_URL = AUCTION_URL + "/42";
-        Calendar instance = Calendar.getInstance();
-        Date startTime = instance.getTime();
-        instance.add(Calendar.DAY_OF_MONTH, 1);
-        Date endTime = instance.getTime();
-        AuctionHouse auctionHouse = new AuctionHouse("gumi house");
-        double startPrice = 42.0;
-
-        Auction auction = new Auction("gumi auction", "lorem ipsum", startTime, endTime, startPrice, auctionHouse);
-        String expectedJsonContent = "[" + jsonOf(new AuctionDto(auction)) + "]";     // We expect an JSON array, not a JSON object
-        when(service.retrieveAuctionsBy(42L)).thenReturn(Arrays.asList(auction));
-        this.mockMvc.perform(get(AUCTION_TO_HOUSE_BY_ID_URL)).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json(expectedJsonContent));
-    }
-
-    @Test
-    public void shouldReturnBadRequestError() throws Exception {
+    public void shouldReturnBadRequestStatusWhenAnInvalidIdIsProvided() throws Exception {
         this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void shouldReturnNotFoundResourceErrorIfTheHouseDoesNotExist() throws Exception {
-        when(service.retrieveAuctionsBy(42L)).thenThrow(ResourceNotFoundException.class);
-        this.mockMvc.perform(get(AUCTION_URL + "/42")).andDo(print()).andExpect(status().isNotFound());
     }
 
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
