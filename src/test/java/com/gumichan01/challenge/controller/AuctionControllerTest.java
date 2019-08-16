@@ -68,7 +68,7 @@ public class AuctionControllerTest {
 
         Auction auction = new Auction("gumi auction", "lorem ipsum", startTime, endTime, startPrice, auctionHouse);
         String expectedJsonContent = "[" + jsonOf(new AuctionDto(auction)) + "]";     // We expect an JSON array, not a JSON object
-        when(service.retieveAuctions(42L)).thenReturn(Arrays.asList(auction));
+        when(service.retrieveAuctionsBy(42L)).thenReturn(Arrays.asList(auction));
         this.mockMvc.perform(get(AUCTION_TO_HOUSE_BY_ID_URL)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().json(expectedJsonContent));
     }
@@ -80,7 +80,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldReturnNotFoundResourceErrorIfTheHouseDoesNotExist() throws Exception {
-        when(service.retieveAuctions(42L)).thenThrow(ResourceNotFoundException.class);
+        when(service.retrieveAuctionsBy(42L)).thenThrow(ResourceNotFoundException.class);
         this.mockMvc.perform(get(AUCTION_URL + "/42")).andDo(print()).andExpect(status().isNotFound());
     }
 
