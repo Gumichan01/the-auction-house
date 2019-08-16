@@ -3,10 +3,7 @@ package com.gumichan01.challenge.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gumichan01.challenge.controller.dto.AuctionDto;
-import com.gumichan01.challenge.domain.Auction;
-import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionService;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,15 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +39,6 @@ public class AuctionControllerTest {
 
     @Before
     public void setUp() {
-
         MockitoAnnotations.initMocks(this);
         mockMvc = standaloneSetup(controller).build();
     }
@@ -59,6 +54,15 @@ public class AuctionControllerTest {
     @Test
     public void shouldReturnBadRequestStatusWhenAnInvalidIdIsProvided() throws Exception {
         this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturnCreatedStatusWithTheRegisteredAuction() throws Exception {
+        AuctionDto dto = new AuctionDto("foo", "lorem", Calendar.getInstance().getTime(),
+                Calendar.getInstance().getTime(), 42.0, 42.0, 1L);
+        String jsonContent = jsonOf(dto);
+        this.mockMvc.perform(post(AUCTION_URL + "/").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonContent)).andDo(print()).andExpect(status().isCreated()); // This test is just temporary
     }
 
     private String jsonOf(@NonNull Object object) throws JsonProcessingException {
