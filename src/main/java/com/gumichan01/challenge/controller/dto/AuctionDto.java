@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class AuctionDto {
 
+    private Long id;
     @JsonProperty(required = true)
     private String name;
     @JsonProperty(required = true)
@@ -27,6 +28,7 @@ public class AuctionDto {
 
     public AuctionDto(Auction auction) {
         assert auction != null;
+        this.id = auction.getId();
         this.name = auction.getName();
         this.description = auction.getDescription();
         this.startingTime = auction.getStartingTime();
@@ -44,6 +46,14 @@ public class AuctionDto {
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
         this.houseId = houseId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -105,7 +115,8 @@ public class AuctionDto {
     @Override
     public String toString() {
         return "AuctionDto{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", startingTime=" + startingTime +
                 ", endTime=" + endTime +
