@@ -5,7 +5,6 @@ import com.gumichan01.challenge.persistence.UserBidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +14,6 @@ public class UserBidService {
     UserBidRepository userBidRepository;
 
     public List<UserBid> retrieveUserBids() {
-        return new ArrayList<>();
+        return userBidRepository.findAll();
     }
 }

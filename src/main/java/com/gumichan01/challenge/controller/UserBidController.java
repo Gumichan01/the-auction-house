@@ -25,13 +25,13 @@ public class UserBidController {
         return "Challenge accepted - It works!";
     }
 
-    @GetMapping("/userbid/")
+    @GetMapping("/userbids/")
     public List<UserBidDto> retrieveUserBids() {
         List<UserBid> userBids = service.retrieveUserBids();
         return generateDto(userBids);
     }
 
     private List<UserBidDto> generateDto(List<UserBid> userBids) {
-        return userBids.stream().map(userBid -> new UserBidDto(userBid)).collect(Collectors.toList());
+        return userBids.stream().map(UserBidDto::new).collect(Collectors.toList());
     }
 }
