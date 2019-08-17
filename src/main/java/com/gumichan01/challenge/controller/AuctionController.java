@@ -22,11 +22,6 @@ public class AuctionController {
     @Autowired
     AuctionService service;
 
-    @GetMapping("/")
-    public String index() {
-        return "Challenge accepted - It works!";
-    }
-
     // TODO bonus, list auctions based on their status - not started, running, terminated
 
     @GetMapping("/houses/auctions/{house_id}")
