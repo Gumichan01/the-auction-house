@@ -1,6 +1,7 @@
 package com.gumichan01.challenge.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,9 @@ public class UserBid {
 
     @Column(nullable = false)
     private Double price;
+
+    @Column(name = "registration_date")
+    private Date registrationDate;
 
     @OneToOne
     @JoinColumn(name = "auction_id")
@@ -51,6 +55,14 @@ public class UserBid {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public Auction getAuction() {
