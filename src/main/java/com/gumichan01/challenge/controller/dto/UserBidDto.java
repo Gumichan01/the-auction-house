@@ -1,6 +1,7 @@
 package com.gumichan01.challenge.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gumichan01.challenge.domain.UserBid;
 
 public class UserBidDto {
 
@@ -22,6 +23,13 @@ public class UserBidDto {
         this.name = name;
         this.price = price;
         this.auctionId = auctionId;
+    }
+
+    public UserBidDto(UserBid userBid) {
+        this.id = userBid.getId();
+        this.name = userBid.getName();
+        this.price = userBid.getPrice();
+        this.auctionId = userBid.getAuction().getId();
     }
 
     public Long getId() {
