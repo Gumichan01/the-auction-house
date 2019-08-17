@@ -2,6 +2,7 @@ package com.gumichan01.challenge.service;
 
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
+import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
@@ -21,30 +22,33 @@ import static org.mockito.Mockito.when;
 public class AuctionHouseServiceTest {
 
     @Mock
-    private AuctionHouseRepository repositoryMock;
+    private AuctionRepository auctionRepositoryMock;
+
+    @Mock
+    private AuctionHouseRepository houseRepositoryMock;
 
     @InjectMocks
     private AuctionHouseService service;
 
     @Test
     public void shouldRetrieveNotAuctionHouseFromEmptyRepository() {
-        when(repositoryMock.findAll()).thenReturn(new ArrayList<>());
+        when(houseRepositoryMock.findAll()).thenReturn(new ArrayList<>());
         assertThat(service.retrieveAllAuctionHouses()).isEmpty();
     }
 
     @Test
     public void shouldReturnRegisteredAuctionHouse() {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house");
-        when(repositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
+        when(houseRepositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
         assertThat(service.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
     }
 
     @Test(expected = AlreadyRegisteredException.class)
     public void shouldNotRegisterTheAuctionHouseTwice() {
         final AuctionHouse auctionHouse = new AuctionHouse("another mock house");
-        when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
+        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
         service.registerAuctionHouse(auctionHouse);
-        when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);
+        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);
         service.registerAuctionHouse(auctionHouse);
     }
 
@@ -53,8 +57,9 @@ public class AuctionHouseServiceTest {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house to delete");
         final Optional<AuctionHouse> optionalHouse = Optional.of(auctionHouse);
         auctionHouse.setId(1L);
-        when(repositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
-        when(repositoryMock.findById(auctionHouse.getId())).thenReturn(optionalHouse);
+        when(auctionRepositoryMock.findAllByHouseId(auctionHouse.getId())).thenReturn(new ArrayList<>());
+        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
+        when(houseRepositoryMock.findById(auctionHouse.getId())).thenReturn(optionalHouse);
         service.registerAuctionHouse(auctionHouse);
         service.deleteAuctionHouse(auctionHouse.getId());
     }
