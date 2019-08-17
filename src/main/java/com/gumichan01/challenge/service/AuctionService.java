@@ -40,6 +40,21 @@ public class AuctionService {
         return auctionRepository.findAllByHouseId(houseId);
     }
 
+    public void deleteAuction(Long id) {
+        logger.info("delete auction by id: " + id);
+        if (id == null) {
+            throw new BadRequestException("Invalid request: no identifier provided.\n");
+        }
+
+        Optional<Auction> auctionById = auctionRepository.findById(id);
+        if (!auctionById.isPresent()) {
+            throw new ResourceNotFoundException("Auction to delete not found.\n");
+        }
+
+        logger.info("delete the auction: " + auctionById.get());
+        auctionRepository.deleteById(id);
+    }
+
     public Auction registerAuction(AuctionDto auctionDto) {
 
         logger.info("auction param: ");

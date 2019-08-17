@@ -46,7 +46,7 @@ public class AuctionController {
 
     @DeleteMapping("/houses/auctions/{id}")
     public ResponseEntity<Void> deleteAuction(@PathVariable Long id) {
-        //Auction auction = service.deleteAuction(id);
+        service.deleteAuction(id);
         return ResponseEntity.noContent().build();
     }
 
