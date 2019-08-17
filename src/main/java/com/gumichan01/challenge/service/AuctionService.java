@@ -82,6 +82,7 @@ public class AuctionService {
         logger.info(house.toString());
         Auction auctionToSave = new Auction(auctionDto);
         auctionToSave.setAuctionHouse(house);
+        auctionToSave.setCurrentPrice(null);
 
         List<Auction> auctionsInConflictWithCurrrentAuction = findAuctionsInConflictWithCurrentAuction(house, auctionToSave);
         if (!auctionsInConflictWithCurrrentAuction.isEmpty()) {

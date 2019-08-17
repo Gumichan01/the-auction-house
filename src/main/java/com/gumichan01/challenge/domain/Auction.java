@@ -28,7 +28,6 @@ public class Auction {
     @Column(nullable = false)
     private Double startPrice;
 
-    @Column(nullable = false)
     private Double currentPrice;
 
     @OneToOne
@@ -56,7 +55,7 @@ public class Auction {
         this.startingTime = auctionDto.getStartingTime();
         this.endTime = auctionDto.getEndTime();
         this.startPrice = auctionDto.getStartPrice();
-        this.currentPrice = auctionDto.getCurrentPrice(); // TODO What if the current price value violates class invariants?
+        this.currentPrice = auctionDto.getCurrentPrice();
     }
 
     public Long getId() {
@@ -117,6 +116,10 @@ public class Auction {
 
     public Double getCurrentPrice() {
         return currentPrice;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
     @Override
