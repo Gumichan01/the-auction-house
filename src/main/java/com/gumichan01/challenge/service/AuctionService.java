@@ -5,15 +5,14 @@ import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.InconsistentAuctionException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +49,17 @@ public class AuctionService {
             throw new ResourceNotFoundException("Auction to delete not found.\n");
         }
 
+        if (isProcessing(auctionById.get())) {
+            throw new AuctionConstraintViolationException("This auction is already started. Wait until it is terminated to delete it.\n");
+        }
+
         logger.info("delete the auction: " + auctionById.get());
         auctionRepository.deleteById(id);
+    }
+
+    private boolean isProcessing(Auction auction) {
+        Date now = Calendar.getInstance().getTime();
+        return inDateInterval(Calendar.getInstance().getTime(), auction.getStartingTime(), auction.getEndTime());
     }
 
     public Auction registerAuction(AuctionDto auctionDto) {
@@ -112,7 +120,10 @@ public class AuctionService {
     }
 
     private boolean inDateInterval(Date refTime, Date startingTime, Date endTime) {
-        return startingTime.before(refTime) && endTime.after(refTime);
+        Instant instant = refTime.toInstant();
+        Instant startInstant = startingTime.toInstant();
+        Instant endInstant = endTime.toInstant();
+        return startInstant.isBefore(instant) && endInstant.isAfter(instant);
     }
 
     private boolean isConsistent(AuctionDto auctionDto) {
