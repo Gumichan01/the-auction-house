@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionHouseService;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,35 +58,6 @@ public class AuctionHouseControllerTest {
         this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonRequestContent))
                 .andDo(print()).andExpect(status().isCreated());
-    }
-
-    @Test
-    public void shouldNotRegisterAuctionHouseWithoutName() throws Exception {
-        AuctionHouse auctionHouse = new AuctionHouse(null);
-        String jsonRequestContent = "{\"name\":null}";
-
-        when(service.registerAuctionHouse(auctionHouse)).thenThrow(new BadRequestException("mock bad request"));
-        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonRequestContent))
-                .andDo(print()).andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void shouldNotRegisterTheAuctionHouseTwice() throws Exception {
-        AuctionHouse mockHouse = new AuctionHouse("mock house");
-        String jsonRequestContent = "{\"name\":\"mock house\"}";
-
-        when(service.registerAuctionHouse(mockHouse)).thenReturn(mockHouse);
-        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonRequestContent))
-                .andExpect(status().isCreated());
-
-        // This must fail
-        when(service.registerAuctionHouse(mockHouse)).thenThrow(new AlreadyRegisteredException("mock registration failed"));
-        this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonRequestContent))
-                .andDo(print()).andExpect(status().isConflict());
-
     }
 
     @Test
