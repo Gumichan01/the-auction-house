@@ -19,7 +19,8 @@ public class UserBidDto {
     public UserBidDto() {
     }
 
-    public UserBidDto(String name, Double price, Long auctionId) {
+    public UserBidDto(Long id, String name, Double price, Long auctionId) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.auctionId = auctionId;
