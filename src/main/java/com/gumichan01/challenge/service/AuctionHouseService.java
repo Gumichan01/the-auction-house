@@ -61,16 +61,19 @@ public class AuctionHouseService {
         }
 
         AuctionHouse auctionHouse = optionalAuctionHouse.get();
-        if (hasProcessingAuctions(auctionHouse)) {
+        List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(auctionHouse.getId());
+        if (hasProcessingAuctions(auctionHouse, auctionsByHouseId)) {
             throw new AuctionHouseConstraintViolationException("Cannot delete the house. Some auctions are started. Wait until this auction is terminated to delete it.\n");
         }
 
+        logger.info("Delete auctions related to this house");
+        auctionsByHouseId.forEach(auction -> logger.info(auction.toString()));
+        auctionRepository.deleteAll(auctionsByHouseId);
         logger.info("delete the auction house: " + auctionHouse);
         houseRepository.deleteById(id);
     }
 
-    public boolean hasProcessingAuctions(AuctionHouse auctionHouse) {
-        List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(auctionHouse.getId());
+    public boolean hasProcessingAuctions(AuctionHouse auctionHouse, List<Auction> auctionsByHouseId) {
         logger.info("auctions on this house: " + auctionsByHouseId.size());
         List<Auction> auctionsAlreadyStarted = auctionsByHouseId.stream()
                 .filter(auction -> {
