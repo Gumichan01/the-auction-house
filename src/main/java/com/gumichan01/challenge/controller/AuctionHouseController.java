@@ -3,6 +3,7 @@ package com.gumichan01.challenge.controller;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.service.AuctionHouseService;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
+import com.gumichan01.challenge.service.exception.AuctionHouseConstraintViolationException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -40,8 +41,8 @@ public class AuctionHouseController {
     }
 
     //  TODO create a global exception handler - DUPLICATED CODE
-    @ExceptionHandler(AlreadyRegisteredException.class)
-    public ResponseEntity<String> handleError(AlreadyRegisteredException e) {
+    @ExceptionHandler({AlreadyRegisteredException.class, AuctionHouseConstraintViolationException.class})
+    public ResponseEntity<String> handleError(Exception e) {
         logger.warn(e.getMessage());
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
     }
