@@ -153,6 +153,7 @@ public class Auction {
                 ", startingTime=" + startingTime +
                 ", endTime=" + endTime +
                 ", startPrice=" + startPrice +
+                ", currentPrice=" + currentPrice +
                 ", auctionHouse=" + auctionHouse +
                 '}';
     }

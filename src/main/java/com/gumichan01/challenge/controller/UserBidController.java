@@ -6,7 +6,11 @@ import com.gumichan01.challenge.service.UserBidService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,6 +33,12 @@ public class UserBidController {
     public List<UserBidDto> retrieveUserBids() {
         List<UserBid> userBids = service.retrieveUserBids();
         return generateDto(userBids);
+    }
+
+    @PostMapping("/userbids/")
+    public ResponseEntity<UserBidDto> registerUserBid(@RequestBody UserBidDto userBidDto) {
+        UserBid userBid = service.registerUserBid(userBidDto);
+        return new ResponseEntity<>(new UserBidDto((userBid)), HttpStatus.CREATED);
     }
 
     private List<UserBidDto> generateDto(List<UserBid> userBids) {
