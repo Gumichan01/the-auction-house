@@ -24,15 +24,16 @@ public class ChallengeApplication {
     public CommandLineRunner index(AuctionRepository auctionRepository, AuctionHouseRepository houseRepository) {
         return args -> {
             Calendar instance = Calendar.getInstance();
+            instance.add(Calendar.DAY_OF_MONTH, -1);
             Date startTime = instance.getTime();
-            instance.add(Calendar.DAY_OF_MONTH, 1);
+            instance.add(Calendar.DAY_OF_MONTH, 4);
             Date endTime = instance.getTime();
             AuctionHouse auctionHouse = new AuctionHouse("gumi house");
             double startPrice = 42.0;
             houseRepository.save(auctionHouse);
-            AuctionHouse auctionHouse1 = new AuctionHouse("l");
+            AuctionHouse auctionHouse1 = new AuctionHouse("luka house");
             houseRepository.save(auctionHouse1);
-            AuctionHouse auctionHouse2 = new AuctionHouse("g");
+            AuctionHouse auctionHouse2 = new AuctionHouse("teto house");
             houseRepository.save(auctionHouse2);
             auctionRepository.save(new Auction("gumi auction", "lorem ipsum",startTime, endTime, startPrice, auctionHouse));
             auctionRepository.save(new Auction("baka auction", "lorem",startTime, endTime, startPrice, auctionHouse1));
