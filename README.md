@@ -65,6 +65,15 @@ Delete an auction (by its identifier):
 curl -i -X DELETE localhost:8080/houses/auctions/1
 ```
 
+### User bid ###
+
+List all user bids that has happpened until now:
+```
+curl localhost:8080/userbids/
+```
+The user bids are sorted by dates, from the last one to the first.
+
+
 ---
 [1]: https://en.wikipedia.org/wiki/ISO_8601
 
