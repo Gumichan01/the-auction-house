@@ -40,7 +40,6 @@ public class AuctionHouseService {
     }
 
     public void deleteAuctionHouse(Long id) {
-
         logger.info("delete by id: " + id);
 
         if (id == null) {

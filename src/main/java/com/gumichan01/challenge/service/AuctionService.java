@@ -31,7 +31,6 @@ public class AuctionService {
     AuctionRepository auctionRepository;
 
     public List<Auction> retrieveAuctionsBy(Long houseId) {
-
         logger.info("Get auctions from house by this id: " + houseId);
         if (houseId == null) {
             throw new BadRequestException("The auction house id is not provided.\n");
@@ -56,7 +55,6 @@ public class AuctionService {
     }
 
     public Auction registerAuction(AuctionDto auctionDto) {
-
         logger.info("auction param: ");
         logger.info(auctionDto.toString());
 
