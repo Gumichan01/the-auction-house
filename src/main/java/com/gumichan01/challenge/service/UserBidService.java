@@ -32,9 +32,30 @@ public class UserBidService {
 
     public List<UserBid> retrieveUserBids(Long auctionId) {
         if (auctionId == null) {
-            throw new BadRequestException("The auction id is not provided");
+            throw new BadRequestException("The auction id is not provided.\n");
         }
         return userBidRepository.findAllSortedByDescRegistrationDateByAuctionId(auctionId);
+    }
+
+    public UserBid retrieveAuctionWinner(Long auctionId) {
+        if (auctionId == null) {
+            throw new BadRequestException("The auction id is not provided.\n");
+        }
+
+        Optional<Auction> auctionById = auctionRepository.findById(auctionId);
+        if (!auctionById.isPresent()) {
+            throw new ResourceNotFoundException("Cannot find the auction.\n");
+        }
+
+        if (!isTerminated(auctionById.get())) {
+            throw new ResourceNotFoundException("No winner found. The auction is not terminated.\n");
+        }
+
+        List<UserBid> userBids = userBidRepository.findAllSortedByDescRegistrationDateByAuctionId(auctionId);
+        if (userBids.isEmpty()) {
+            throw new ResourceNotFoundException("No user bid. No winner.\n");
+        }
+        return userBids.get(0);
     }
 
     public UserBid registerUserBid(Long auctionId, UserBidDto userBidDto) {

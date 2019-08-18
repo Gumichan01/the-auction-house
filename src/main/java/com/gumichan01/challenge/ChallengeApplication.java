@@ -28,7 +28,7 @@ public class ChallengeApplication {
             Calendar instance = Calendar.getInstance();
             instance.add(Calendar.DAY_OF_MONTH, -1);
             Date startTime = instance.getTime();
-            instance.add(Calendar.DAY_OF_MONTH, 4);
+            instance.add(Calendar.DAY_OF_MONTH, 1);
             Date endTime = instance.getTime();
             AuctionHouse auctionHouse = new AuctionHouse("gumi house");
             double startPrice = 42.0;
@@ -41,8 +41,12 @@ public class ChallengeApplication {
             auctionRepository.save(gumiAuction);
             auctionRepository.save(new Auction("baka auction", "lorem",startTime, endTime, startPrice, auctionHouse1));
             auctionRepository.save(new Auction("lalalala", "lorem",startTime, endTime, startPrice, auctionHouse2));
-            userBidRepository.save(new UserBid("luno", 128.0, gumiAuction));
-            userBidRepository.save(new UserBid("leon", 256.0, gumiAuction));
+            UserBid luno = new UserBid("luno", 128.0, gumiAuction);
+            luno.setRegistrationDate(Calendar.getInstance().getTime());
+            userBidRepository.save(luno);
+            UserBid leon = new UserBid("leon", 256.0, gumiAuction);
+            leon.setRegistrationDate(Calendar.getInstance().getTime());
+            userBidRepository.save(leon);
         };
     }
 }

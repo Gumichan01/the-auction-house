@@ -33,10 +33,16 @@ public class UserBidController {
         return generateDto(userBids);
     }
 
+    @GetMapping("auctions/{auction_id}/userbids/winner")
+    public ResponseEntity<UserBidDto> retrieveAuctionWinner(@PathVariable("auction_id") Long auctionId) {
+        UserBid userBid = userBidService.retrieveAuctionWinner(auctionId);
+        return new ResponseEntity<>(new UserBidDto(userBid), HttpStatus.OK);
+    }
+
     @PostMapping("auctions/{auction_id}/userbids")
     public ResponseEntity<UserBidDto> registerUserBid(@PathVariable("auction_id") Long auctionId, @RequestBody UserBidDto userBidDto) {
         UserBid userBid = userBidService.registerUserBid(auctionId, userBidDto);
-        return new ResponseEntity<>(new UserBidDto((userBid)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new UserBidDto(userBid), HttpStatus.CREATED);
     }
 
     private List<UserBidDto> generateDto(List<UserBid> userBids) {
