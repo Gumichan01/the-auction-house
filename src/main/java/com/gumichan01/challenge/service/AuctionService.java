@@ -5,10 +5,7 @@ import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
-import com.gumichan01.challenge.service.exception.AuctionIsStartedException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.InconsistentAuctionException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +55,22 @@ public class AuctionService {
         AuctionHouse house = getAuctionHouseBy(auctionHouseId);
         logger.info("house related to the auction: ");
         logger.info(house.toString());
+
+        boolean auctionAlreadyRegistered = isAuctionAlreadyRegistered(auctionHouseId, auctionDto.getName());
+        if (auctionAlreadyRegistered) {
+            throw new AlreadyRegisteredException("The auction is related to a product that is already in auction in the same auction house.\n");
+        }
+
         Auction auctionToSave = new Auction(auctionDto);
         auctionToSave.setAuctionHouse(house);
         auctionToSave.setCurrentPrice(null);
         logger.info("save " + auctionToSave);
         return auctionRepository.save(auctionToSave);
+    }
+
+    private boolean isAuctionAlreadyRegistered(Long auctionHouseId, String productName) {
+        List<Auction> auctionsByAuctionId = auctionRepository.findAllByAuctionHouseId(auctionHouseId);
+        return auctionsByAuctionId.stream().anyMatch(auction -> auction.getProductName().equals(productName));
     }
 
     private AuctionHouse getAuctionHouseBy(Long auctionHouseId) {

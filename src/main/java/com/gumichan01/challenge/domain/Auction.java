@@ -14,7 +14,7 @@ public class Auction {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String productName;
 
     @Column(nullable = false)
     private String description;
@@ -37,9 +37,9 @@ public class Auction {
     public Auction() {
     }
 
-    public Auction(String name, String description, Date startingTime, Date endTime, Double startPrice,
+    public Auction(String productName, String description, Date startingTime, Date endTime, Double startPrice,
                    AuctionHouse auctionHouse) {
-        this.name = name;
+        this.productName = productName;
         this.description = description;
         this.startingTime = startingTime;
         this.endTime = endTime;
@@ -50,7 +50,7 @@ public class Auction {
 
     public Auction(AuctionDto auctionDto) {
         assert auctionDto != null;
-        this.name = auctionDto.getName();
+        this.productName = auctionDto.getName();
         this.description = auctionDto.getDescription();
         this.startingTime = auctionDto.getStartingTime();
         this.endTime = auctionDto.getEndTime();
@@ -66,12 +66,12 @@ public class Auction {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
@@ -131,7 +131,7 @@ public class Auction {
             return false;
 
         Auction auction = (Auction) o;
-        return Objects.equals(name, auction.name) &&
+        return Objects.equals(productName, auction.productName) &&
                 Objects.equals(description, auction.description) &&
                 Objects.equals(startingTime, auction.startingTime) &&
                 Objects.equals(endTime, auction.endTime) &&
@@ -141,14 +141,14 @@ public class Auction {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, startingTime, endTime, startPrice, auctionHouse);
+        return Objects.hash(productName, description, startingTime, endTime, startPrice, auctionHouse);
     }
 
     @Override
     public String toString() {
         return "Auction{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + productName + '\'' +
                 ", description='" + description + '\'' +
                 ", startingTime=" + startingTime +
                 ", endTime=" + endTime +

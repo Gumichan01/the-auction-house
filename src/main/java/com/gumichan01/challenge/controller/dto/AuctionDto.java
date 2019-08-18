@@ -27,7 +27,7 @@ public class AuctionDto {
     public AuctionDto(Auction auction) {
         assert auction != null;
         this.id = auction.getId();
-        this.name = auction.getName();
+        this.name = auction.getProductName();
         this.description = auction.getDescription();
         this.startingTime = auction.getStartingTime();
         this.endTime = auction.getEndTime();
