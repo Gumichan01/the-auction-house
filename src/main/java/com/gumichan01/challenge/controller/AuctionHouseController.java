@@ -17,18 +17,18 @@ public class AuctionHouseController {
     @Autowired
     private AuctionHouseService auctionHouseService;
 
-    @GetMapping("/houses")
+    @GetMapping("/auction-houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
         return auctionHouseService.retrieveAllAuctionHouses();
     }
 
-    @PostMapping("/houses")
+    @PostMapping("/auction-houses")
     public ResponseEntity<AuctionHouse> registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
         AuctionHouse registeredAuctionHouse = auctionHouseService.registerAuctionHouse(auctionHouse);
         return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/houses/{id}")
+    @DeleteMapping("/auction-houses/{id}")
     public ResponseEntity<Void> deleteAuctionHouse(@PathVariable("id") Long id) {
         auctionHouseService.deleteAuctionHouse(id);
         return ResponseEntity.noContent().build();

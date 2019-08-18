@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class AuctionHouseControllerTest {
 
-    private static final String AUCTION_HOUSES_URL = "/houses";
+    private static final String AUCTION_HOUSES_URL = "/auction-houses";
 
     @Mock
     private AuctionHouseService auctionHouseServiceMock;
