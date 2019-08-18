@@ -30,18 +30,20 @@ public class UserBidService {
     @Autowired
     private UserBidRepository userBidRepository;
 
-    public List<UserBid> retrieveUserBids() {
-        // TODO list user from the most recent one to the eldest one
-        return userBidRepository.findAll();
+    public List<UserBid> retrieveUserBids(Long auctionId) {
+        if (auctionId == null) {
+            throw new BadRequestException("The auction id is not provided");
+        }
+        return userBidRepository.findAllSortedByDescRegistrationDateByAuctionId(auctionId);
     }
 
-    public UserBid registerUserBid(UserBidDto userBidDto) {
+    public UserBid registerUserBid(Long auctionId, UserBidDto userBidDto) {
         logger.info("Let " + userBidDto);
-        if (userBidDto == null) {
-            throw new BadRequestException("The user bid to register is not provided.\n");
+        if (auctionId == null || userBidDto == null) {
+            throw new BadRequestException("The user bid to register, and/or the id of the auction is/are not provided.\n");
         }
 
-        Optional<Auction> auctionById = auctionRepository.findById(userBidDto.getAuctionId());
+        Optional<Auction> auctionById = auctionRepository.findById(auctionId);
         if (!auctionById.isPresent()) {
             throw new ResourceNotFoundException("The id refers to auction that does not exist.\n");
         }
@@ -66,7 +68,7 @@ public class UserBidService {
 
     private boolean isLastBidMadeByTheSameUser(UserBid userBid) {
 
-        List<UserBid> userBidsByAuctionId = userBidRepository.findMostRecentByAuctionId(userBid.getAuction().getId());
+        List<UserBid> userBidsByAuctionId = userBidRepository.findAllSortedByDescRegistrationDateByAuctionId(userBid.getAuction().getId());
         // For debug purpose
         if (!userBidsByAuctionId.isEmpty()) {
             UserBid lastUserBid = userBidsByAuctionId.get(0);

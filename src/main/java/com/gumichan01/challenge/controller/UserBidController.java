@@ -27,15 +27,15 @@ public class UserBidController {
         return "Challenge accepted - It works!";
     }
 
-    @GetMapping("/userbids")
-    public List<UserBidDto> retrieveUserBids() {
-        List<UserBid> userBids = userBidService.retrieveUserBids();
+    @GetMapping("auctions/{auction_id}/userbids")
+    public List<UserBidDto> retrieveUserBids(@PathVariable("auction_id") Long auctionId) {
+        List<UserBid> userBids = userBidService.retrieveUserBids(auctionId);
         return generateDto(userBids);
     }
 
-    @PostMapping("/userbids")
-    public ResponseEntity<UserBidDto> registerUserBid(@RequestBody UserBidDto userBidDto) {
-        UserBid userBid = userBidService.registerUserBid(userBidDto);
+    @PostMapping("auctions/{auction_id}/userbids")
+    public ResponseEntity<UserBidDto> registerUserBid(@PathVariable("auction_id") Long auctionId, @RequestBody UserBidDto userBidDto) {
+        UserBid userBid = userBidService.registerUserBid(auctionId, userBidDto);
         return new ResponseEntity<>(new UserBidDto((userBid)), HttpStatus.CREATED);
     }
 

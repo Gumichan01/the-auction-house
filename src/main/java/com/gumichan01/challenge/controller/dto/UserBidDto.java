@@ -3,6 +3,8 @@ package com.gumichan01.challenge.controller.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gumichan01.challenge.domain.UserBid;
 
+import java.util.Date;
+
 public class UserBidDto {
 
     private Long id;
@@ -13,24 +15,23 @@ public class UserBidDto {
     @JsonProperty(required = true)
     private Double price;
 
-    @JsonProperty(value = "auction_id", required = true)
-    private Long auctionId;
+    @JsonProperty(value = "registration_date")
+    private Date registrationDate;
 
     public UserBidDto() {
     }
 
-    public UserBidDto(Long id, String name, Double price, Long auctionId) {
+    public UserBidDto(Long id, String name, Double price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.auctionId = auctionId;
     }
 
     public UserBidDto(UserBid userBid) {
         this.id = userBid.getId();
         this.name = userBid.getName();
         this.price = userBid.getPrice();
-        this.auctionId = userBid.getAuction().getId();
+        this.registrationDate = userBid.getRegistrationDate();
     }
 
     public Long getId() {
@@ -57,12 +58,12 @@ public class UserBidDto {
         this.price = price;
     }
 
-    public Long getAuctionId() {
-        return auctionId;
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setAuctionId(Long auctionId) {
-        this.auctionId = auctionId;
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class UserBidDto {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", auctionId=" + auctionId +
+                ", registrationDate=" + registrationDate +
                 '}';
     }
 }

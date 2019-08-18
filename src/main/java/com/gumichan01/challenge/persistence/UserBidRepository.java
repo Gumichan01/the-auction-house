@@ -11,5 +11,5 @@ public interface UserBidRepository extends CrudRepository<UserBid, Long> {
     public List<UserBid> findAll();
 
     @Query("SELECT u FROM UserBid u WHERE u.auction.id = ?1 ORDER BY registrationDate DESC")
-    public List<UserBid> findMostRecentByAuctionId(Long auctionId);
+    public List<UserBid> findAllSortedByDescRegistrationDateByAuctionId(Long auctionId);
 }
