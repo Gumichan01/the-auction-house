@@ -1,9 +1,6 @@
 package com.gumichan01.challenge.controller;
 
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.AuctionHouseConstraintViolationException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,7 +13,7 @@ public class CustomExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
-    @ExceptionHandler({AlreadyRegisteredException.class, AuctionHouseConstraintViolationException.class})
+    @ExceptionHandler({AlreadyRegisteredException.class, AuctionHouseConstraintViolationException.class, AuctionIsStartedException.class})
     public ResponseEntity<String> handleError(Exception e) {
         logger.warn(e.getMessage());
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);

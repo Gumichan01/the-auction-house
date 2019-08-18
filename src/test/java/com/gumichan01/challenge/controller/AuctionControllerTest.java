@@ -19,8 +19,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class AuctionControllerTest {
 
-    private static final String AUCTION_URL = "/houses/auctions";
-
     @Mock
     private AuctionService service;
 
@@ -38,13 +36,14 @@ public class AuctionControllerTest {
     @Test
     public void shouldReturnEmptyListOfAuctionsNotRelatedToAnNonExistingHouse() throws Exception {
         String expectedJsonContent = "[]";
-        String AUCTION_TO_HOUSE_BY_ID_URL = AUCTION_URL + "/42";
+        String AUCTION_TO_HOUSE_BY_ID_URL = "/auction-houses/" + "42" + "/auctions";
         this.mockMvc.perform(get(AUCTION_TO_HOUSE_BY_ID_URL)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().json(expectedJsonContent));
     }
 
     @Test
     public void shouldReturnBadRequestStatusWhenAnInvalidIdIsProvided() throws Exception {
-        this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
+        String AUCTION_TO_HOUSE_BY_NULL_URL = "/auction-houses/" + "null" + "/auctions";
+        this.mockMvc.perform(get(AUCTION_TO_HOUSE_BY_NULL_URL)).andDo(print()).andExpect(status().isBadRequest());
     }
 }

@@ -5,7 +5,7 @@ import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
-import com.gumichan01.challenge.service.exception.AuctionConstraintViolationException;
+import com.gumichan01.challenge.service.exception.AuctionIsStartedException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.InconsistentAuctionException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
@@ -40,35 +40,11 @@ public class AuctionService {
         return auctionRepository.findAllByAuctionHouseId(auctionHouseId);
     }
 
-    public void deleteAuction(Long id) {
-        logger.info("delete auction by id: " + id);
-        if (id == null) {
-            throw new BadRequestException("Invalid request: no identifier provided.\n");
-        }
-
-        Optional<Auction> auctionById = auctionRepository.findById(id);
-        if (!auctionById.isPresent()) {
-            throw new ResourceNotFoundException("Auction to delete not found.\n");
-        }
-
-        if (isProcessing(auctionById.get())) {
-            throw new AuctionConstraintViolationException("This auction is already started. Wait until it is terminated to delete it.\n");
-        }
-
-        logger.info("delete the auction: " + auctionById.get());
-        auctionRepository.deleteById(id);
-    }
-
-    private boolean isProcessing(Auction auction) {
-        Date now = Calendar.getInstance().getTime();
-        return inDateInterval(now, auction.getStartingTime(), auction.getEndTime());
-    }
-
-    public Auction registerAuction(AuctionDto auctionDto) {
+    public Auction registerAuction(Long auctionHouseId, AuctionDto auctionDto) {
         logger.info("auction param: ");
         logger.info(auctionDto.toString());
 
-        if (!isValidAuctionDto(auctionDto)) {
+        if (auctionHouseId == null || !isValidAuctionDto(auctionDto)) {
             throw new BadRequestException("Invalid parameters: some mandatory fields are not provided.\n");
         }
 
@@ -79,7 +55,7 @@ public class AuctionService {
                     ") >= (end_time = " + auctionDto.getEndTime() + ").\n");
         }
 
-        AuctionHouse house = getAuctionHouseBy(auctionDto.getAuctionHouseId());
+        AuctionHouse house = getAuctionHouseBy(auctionHouseId);
         logger.info("house related to the auction: ");
         logger.info(house.toString());
         Auction auctionToSave = new Auction(auctionDto);
@@ -97,6 +73,35 @@ public class AuctionService {
         return auctionHouseById.get();
     }
 
+    public void deleteAuction(Long auctionHouseId, Long id) {
+        logger.info("delete auction by id: " + id);
+        if (auctionHouseId == null || id == null) {
+            throw new BadRequestException("Invalid request: an identifier is not provided.\n");
+        }
+
+        Optional<Auction> auctionById = auctionRepository.findById(id);
+        if (!auctionById.isPresent()) {
+            throw new ResourceNotFoundException("Auction to delete not found.\n");
+        }
+
+        Auction auction = auctionById.get();
+        if (!auction.getAuctionHouse().getId().equals(auctionHouseId)) {
+            throw new BadRequestException("The auction to delete does not refers to the auction house provide in parameters.\n");
+        }
+
+        if (isProcessing(auction)) {
+            throw new AuctionIsStartedException("This auction is already started. Wait until it is terminated to delete it.\n");
+        }
+
+        logger.info("delete the auction: " + auction);
+        auctionRepository.deleteById(id);
+    }
+
+    private boolean isProcessing(Auction auction) {
+        Date now = Calendar.getInstance().getTime();
+        return inDateInterval(now, auction.getStartingTime(), auction.getEndTime());
+    }
+
     private boolean inDateInterval(Date refTime, Date startingTime, Date endTime) {
         Instant instant = refTime.toInstant();
         Instant startInstant = startingTime.toInstant();
@@ -112,7 +117,6 @@ public class AuctionService {
 
     private boolean isValidAuctionDto(AuctionDto auctionDto) {
         return auctionDto != null && auctionDto.getName() != null && auctionDto.getDescription() != null
-                && auctionDto.getStartingTime() != null && auctionDto.getEndTime() != null
-                && auctionDto.getAuctionHouseId() != null;
+                && auctionDto.getStartingTime() != null && auctionDto.getEndTime() != null;
     }
 }

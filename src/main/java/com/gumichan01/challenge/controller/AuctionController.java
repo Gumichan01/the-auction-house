@@ -24,21 +24,21 @@ public class AuctionController {
 
     // TODO bonus, list auctions based on their status - not started, running, terminated
 
-    @GetMapping("/houses/auctions/{house_id}")
-    public List<AuctionDto> retrieveAuctions(@PathVariable("house_id") Long houseId) {
-        List<Auction> auctions = auctionService.retrieveAuctionsBy(houseId);
+    @GetMapping("/auction-houses/{auction_house_id}/auctions")
+    public List<AuctionDto> retrieveAuctions(@PathVariable("auction_house_id") Long auctionHouseId) {
+        List<Auction> auctions = auctionService.retrieveAuctionsBy(auctionHouseId);
         return generateDto(auctions);
     }
 
-    @PostMapping("/houses/auctions/")
-    public ResponseEntity<AuctionDto> registerAuction(@RequestBody AuctionDto auctionDto) {
-        Auction auction = auctionService.registerAuction(auctionDto);
+    @PostMapping("/auction-houses/{auction_house_id}/auctions")
+    public ResponseEntity<AuctionDto> registerAuction(@PathVariable("auction_house_id") Long auctionHouseId, @RequestBody AuctionDto auctionDto) {
+        Auction auction = auctionService.registerAuction(auctionHouseId, auctionDto);
         return new ResponseEntity<>(new AuctionDto(auction), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/houses/auctions/{id}")
-    public ResponseEntity<Void> deleteAuction(@PathVariable Long id) {
-        auctionService.deleteAuction(id);
+    @DeleteMapping("/auction-houses/{auction_house_id}/auctions/{id}")
+    public ResponseEntity<Void> deleteAuction(@PathVariable("auction_house_id") Long auctionHouseId, @PathVariable("id") Long id) {
+        auctionService.deleteAuction(auctionHouseId, id);
         return ResponseEntity.noContent().build();
     }
 
