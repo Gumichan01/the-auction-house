@@ -13,7 +13,7 @@ public class CustomExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
-    @ExceptionHandler({AlreadyRegisteredException.class, AuctionHouseConstraintViolationException.class, AuctionIsStartedException.class})
+    @ExceptionHandler({AlreadyRegisteredException.class, StillRunningAuctionException.class, AuctionIsStartedException.class})
     public ResponseEntity<String> handleError(Exception e) {
         logger.warn(e.getMessage());
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);

@@ -5,7 +5,7 @@ import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.AuctionHouseConstraintViolationException;
+import com.gumichan01.challenge.service.exception.StillRunningAuctionException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -62,8 +62,8 @@ public class AuctionHouseService {
 
         AuctionHouse auctionHouse = optionalAuctionHouse.get();
         List<Auction> auctionsByHouseId = auctionRepository.findAllByAuctionHouseId(auctionHouse.getId());
-        if (hasProcessingAuctions(auctionsByHouseId)) {
-            throw new AuctionHouseConstraintViolationException("Cannot delete the auction house. It is still processing auctions. " +
+        if (hasRunningAuctions(auctionsByHouseId)) {
+            throw new StillRunningAuctionException("Cannot delete the auction house. Some auctions are running. " +
                     "Wait until those auctions are terminated to delete it.\n");
         }
 
@@ -74,7 +74,7 @@ public class AuctionHouseService {
         auctionHouseRepository.deleteById(id);
     }
 
-    private boolean hasProcessingAuctions(List<Auction> auctionsByAuctionHouseId) {
+    private boolean hasRunningAuctions(List<Auction> auctionsByAuctionHouseId) {
         logger.info("auctions related to this auction house: " + auctionsByAuctionHouseId.size());
         List<Auction> auctionsAlreadyStarted = auctionsByAuctionHouseId.stream()
                 .filter(auction -> {

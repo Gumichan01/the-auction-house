@@ -64,7 +64,7 @@ public class AuctionService {
                 predicate = auction -> isNotStarted(auction);
                 break;
             case RUNNING:
-                predicate = auction -> isProcessing(auction);
+                predicate = auction -> isRunning(auction);
                 break;
             case TERMINATED:
                 predicate = auction -> isTerminated(auction);
@@ -145,7 +145,7 @@ public class AuctionService {
             throw new BadRequestException("The auction to delete does not refers to the auction house provide in parameters.\n");
         }
 
-        if (isProcessing(auction)) {
+        if (isRunning(auction)) {
             throw new AuctionIsStartedException("This auction is already started. Wait until it is terminated to delete it.\n");
         }
 
@@ -153,7 +153,7 @@ public class AuctionService {
         auctionRepository.deleteById(id);
     }
 
-    private boolean isProcessing(Auction auction) {
+    private boolean isRunning(Auction auction) {
         Instant now = Calendar.getInstance().getTime().toInstant();
         return auction.getStartingTime().toInstant().isBefore(now) && auction.getEndTime().toInstant().isAfter(now);
     }

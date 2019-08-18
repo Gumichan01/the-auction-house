@@ -22,6 +22,7 @@ public class UserBidController {
     @Autowired
     private UserBidService userBidService;
 
+    // TODO remove it
     @GetMapping("/")
     public String index() {
         return "Challenge accepted - It works!";
