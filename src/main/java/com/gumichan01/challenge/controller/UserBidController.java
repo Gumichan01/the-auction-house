@@ -27,13 +27,13 @@ public class UserBidController {
         return "Challenge accepted - It works!";
     }
 
-    @GetMapping("/userbids/")
+    @GetMapping("/userbids")
     public List<UserBidDto> retrieveUserBids() {
         List<UserBid> userBids = userBidService.retrieveUserBids();
         return generateDto(userBids);
     }
 
-    @PostMapping("/userbids/")
+    @PostMapping("/userbids")
     public ResponseEntity<UserBidDto> registerUserBid(@RequestBody UserBidDto userBidDto) {
         UserBid userBid = userBidService.registerUserBid(userBidDto);
         return new ResponseEntity<>(new UserBidDto((userBid)), HttpStatus.CREATED);
