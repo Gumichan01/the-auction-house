@@ -3,6 +3,7 @@ package com.gumichan01.challenge.service;
 import com.gumichan01.challenge.controller.dto.AuctionDto;
 import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
+import com.gumichan01.challenge.domain.AuctionStatus;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.service.exception.*;
@@ -16,6 +17,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class AuctionService {
@@ -28,13 +31,58 @@ public class AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-    public List<Auction> retrieveAuctionsBy(Long auctionHouseId) {
+    public List<Auction> retrieveAuctionsBy(Long auctionHouseId, String status) {
         logger.info("Get auctions from auction house by this id: " + auctionHouseId);
         if (auctionHouseId == null) {
             throw new BadRequestException("The auction house id is not provided.\n");
         }
 
-        return auctionRepository.findAllByAuctionHouseId(auctionHouseId);
+        List<Auction> allByAuctionHouseId = auctionRepository.findAllByAuctionHouseId(auctionHouseId);
+        return filterBy(allByAuctionHouseId, buildAuctionStatus(status));
+    }
+
+    private AuctionStatus buildAuctionStatus(String status) {
+        AuctionStatus auctionStatus = null;
+        try {
+            if (status != null) {
+                auctionStatus = AuctionStatus.valueOf(status.toUpperCase());
+            }
+        } catch (IllegalArgumentException e) {
+            logger.warn(e.getMessage());
+        }
+        return auctionStatus;
+    }
+
+    private List<Auction> filterBy(List<Auction> auctions, AuctionStatus status) {
+        if (status == null) {
+            return auctions;
+        }
+
+        Predicate<Auction> predicate = auction -> true;
+        switch (status) {
+            case NOT_STARTED:
+                predicate = auction -> isNotStarted(auction);
+                break;
+            case RUNNING:
+                predicate = auction -> isProcessing(auction);
+                break;
+            case TERMINATED:
+                predicate = auction -> isTerminated(auction);
+                break;
+        }
+
+        logger.info("Filter auction by the following status: " + status);
+        return auctions.stream().filter(predicate).collect(Collectors.toList());
+    }
+
+    private boolean isNotStarted(Auction auction) {
+        Instant now = Calendar.getInstance().getTime().toInstant();
+        return now.isBefore(auction.getStartingTime().toInstant());
+    }
+
+    private boolean isTerminated(Auction auction) {
+        Instant now = Calendar.getInstance().getTime().toInstant();
+        return now.isAfter(auction.getEndTime().toInstant());
     }
 
     public Auction registerAuction(Long auctionHouseId, AuctionDto auctionDto) {
@@ -106,15 +154,8 @@ public class AuctionService {
     }
 
     private boolean isProcessing(Auction auction) {
-        Date now = Calendar.getInstance().getTime();
-        return inDateInterval(now, auction.getStartingTime(), auction.getEndTime());
-    }
-
-    private boolean inDateInterval(Date refTime, Date startingTime, Date endTime) {
-        Instant instant = refTime.toInstant();
-        Instant startInstant = startingTime.toInstant();
-        Instant endInstant = endTime.toInstant();
-        return startInstant.isBefore(instant) && endInstant.isAfter(instant);
+        Instant now = Calendar.getInstance().getTime().toInstant();
+        return auction.getStartingTime().toInstant().isBefore(now) && auction.getEndTime().toInstant().isAfter(now);
     }
 
     private boolean isConsistent(AuctionDto auctionDto) {

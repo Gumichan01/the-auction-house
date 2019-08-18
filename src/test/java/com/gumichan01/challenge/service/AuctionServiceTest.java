@@ -31,7 +31,7 @@ public class AuctionServiceTest {
 
     @Test
     public void shouldRetrieveNotAuctionFromEmptyRepository() {
-        assertThat(auctionService.retrieveAuctionsBy(1L)).isEmpty();
+        assertThat(auctionService.retrieveAuctionsBy(1L, null)).isEmpty();
     }
 
     @Test(expected = BadRequestException.class)
