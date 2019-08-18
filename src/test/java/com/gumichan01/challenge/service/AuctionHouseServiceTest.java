@@ -3,6 +3,7 @@ package com.gumichan01.challenge.service;
 import com.gumichan01.challenge.domain.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
+import com.gumichan01.challenge.persistence.UserBidRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
@@ -20,6 +21,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuctionHouseServiceTest {
+
+    @Mock
+    private UserBidRepository userBidRepositoryMock;
 
     @Mock
     private AuctionRepository auctionRepositoryMock;
