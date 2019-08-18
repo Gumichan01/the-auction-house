@@ -9,21 +9,11 @@ Compile the application:
 ./mvnw compile      # or mvn compile
 ```
 
-You can test the application: 
+Test:
 ```
 ./mvnw test         # or mvn test
 ```
-
-Generate the package :
-```
-./mvnw package      # or mvn test
-```
-
-Then run the application with:
-```
-java -jar target/challenge-0.0.1-SNAPSHOT.jar
-```
-or you can simply use
+If you just want to launch aht webapp:
 ```
 ./mvnw spring-boot:run
 ```
@@ -40,7 +30,7 @@ curl -i -H Content-Type: application/json -d '{"name":"foo"}' localhost:8080/auc
 
 List all auction houses:
 ```
-curl -i localhost:8080/auction-houses?filter=[not_started|running|terminated]
+curl -i localhost:8080/auction-houses
 ```
 
 Delete an auction house:
@@ -52,7 +42,7 @@ curl -i -X DELETE localhost:8080/auction-houses/{id}
 
 List all auctions, for a given auction house:
 ```
-curl -i localhost:8080/auction-houses/{auction_house_id}/auctions
+curl -i localhost:8080/auction-houses/{auction_house_id}/auctions?filter=[not_started|running|terminated]
 ```
 
 Add an auction, for a given auction house:
