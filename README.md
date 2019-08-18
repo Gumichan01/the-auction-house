@@ -40,7 +40,7 @@ curl -i -H Content-Type: application/json -d '{"name":"foo"}' localhost:8080/auc
 
 List all auction houses:
 ```
-curl -i localhost:8080/auction-houses
+curl -i localhost:8080/auction-houses?filter=[not_started|running|terminated]
 ```
 
 Delete an auction house:
