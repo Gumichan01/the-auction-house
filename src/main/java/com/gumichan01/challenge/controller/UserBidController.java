@@ -3,8 +3,6 @@ package com.gumichan01.challenge.controller;
 import com.gumichan01.challenge.controller.dto.UserBidDto;
 import com.gumichan01.challenge.domain.UserBid;
 import com.gumichan01.challenge.service.UserBidService;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.AuctionHouseConstraintViolationException;
 import com.gumichan01.challenge.service.exception.UserBidMadeByTheUserTwiceInARowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
