@@ -46,14 +46,17 @@ public class UserBidService {
         }
 
         Auction auction = auctionById.get();
-        // TODO Set user bid registration date
-        // TODO At user registration, update the current price of the auction
+        // TODO Check if the last user bid is made by the same user
         UserBid userBid = new UserBid(userBidDto.getName(), userBidDto.getPrice(), auction);
         logger.info("The user bid is related to \n" + auction);
         if (!isUserBidAllowed(userBid, auction)) {
             throw new UserBidConstraintController("Cannot register the user bid. The price is to low, " +
-                    "or the auction has not started, or it is terminated.\n");
+                    "or the auction is not started, or it is terminated.\n");
         }
+
+        auction.setCurrentPrice(userBid.getPrice());
+        userBid.setRegistrationDate(Calendar.getInstance().getTime());
+        logger.info("User bid registered on " + userBid.getRegistrationDate());
         return userBidRepository.save(userBid);
     }
 
