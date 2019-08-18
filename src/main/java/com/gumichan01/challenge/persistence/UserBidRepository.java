@@ -1,11 +1,15 @@
 package com.gumichan01.challenge.persistence;
 
 import com.gumichan01.challenge.domain.UserBid;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 public interface UserBidRepository extends CrudRepository<UserBid, Long> {
 
-    List<UserBid> findAll();
+    public List<UserBid> findAll();
+
+    @Query("SELECT u FROM UserBid u WHERE u.auction.id = ?1 ORDER BY registrationDate DESC")
+    public List<UserBid> findMostRecentByAuctionId(Long auctionId);
 }
