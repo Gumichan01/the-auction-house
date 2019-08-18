@@ -2,12 +2,14 @@ package com.gumichan01.challenge.service;
 
 import com.gumichan01.challenge.domain.Auction;
 import com.gumichan01.challenge.domain.AuctionHouse;
+import com.gumichan01.challenge.domain.UserBid;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
+import com.gumichan01.challenge.persistence.UserBidRepository;
 import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.StillRunningAuctionException;
 import com.gumichan01.challenge.service.exception.BadRequestException;
 import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.service.exception.StillRunningAuctionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ import java.util.stream.Collectors;
 public class AuctionHouseService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuctionHouseService.class);
+
+    @Autowired
+    private UserBidRepository userBidRepository;
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -67,11 +72,23 @@ public class AuctionHouseService {
                     "Wait until those auctions are terminated to delete it.\n");
         }
 
-        logger.info("Delete auctions related to this auction house");
+
+        Iterable<UserBid> userBidsByAuctionId = retrieveUserBidsByAuctionsToDelete(auctionsByHouseId);
+        logger.info("Delete user bids related to every auctions");
+        userBidsByAuctionId.forEach(userBid -> logger.info(userBid.toString()));
+        userBidRepository.deleteAll(userBidsByAuctionId);
+
+        logger.info("Delete auctions of the auction house");
         auctionsByHouseId.forEach(auction -> logger.info(auction.toString()));
         auctionRepository.deleteAll(auctionsByHouseId);
+
         logger.info("delete the auction house: " + auctionHouse);
         auctionHouseRepository.deleteById(id);
+    }
+
+    private Iterable<UserBid> retrieveUserBidsByAuctionsToDelete(List<Auction> auctionsByHouseId) {
+        List<Long> auctionIds = auctionsByHouseId.stream().map(Auction::getId).collect(Collectors.toList());
+        return userBidRepository.findAllByAuctionId(auctionIds);
     }
 
     private boolean hasRunningAuctions(List<Auction> auctionsByAuctionHouseId) {
