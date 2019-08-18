@@ -1,7 +1,5 @@
 package com.gumichan01.challenge.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gumichan01.challenge.service.AuctionService;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.lang.NonNull;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,9 +46,5 @@ public class AuctionControllerTest {
     @Test
     public void shouldReturnBadRequestStatusWhenAnInvalidIdIsProvided() throws Exception {
         this.mockMvc.perform(get(AUCTION_URL + "/null")).andDo(print()).andExpect(status().isBadRequest());
-    }
-
-    private String jsonOf(@NonNull Object object) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(object);
     }
 }

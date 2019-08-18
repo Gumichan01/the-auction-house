@@ -14,25 +14,23 @@ import java.util.List;
 @RestController
 public class AuctionHouseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuctionHouseService.class);
-
     @Autowired
-    private AuctionHouseService service;
+    private AuctionHouseService auctionHouseService;
 
     @GetMapping("/houses")
     public List<AuctionHouse> retrieveAuctionHouse() {
-        return service.retrieveAllAuctionHouses();
+        return auctionHouseService.retrieveAllAuctionHouses();
     }
 
     @PostMapping("/houses")
     public ResponseEntity<AuctionHouse> registerAuctionHouse(@RequestBody AuctionHouse auctionHouse) {
-        AuctionHouse registeredAuctionHouse = service.registerAuctionHouse(auctionHouse);
+        AuctionHouse registeredAuctionHouse = auctionHouseService.registerAuctionHouse(auctionHouse);
         return new ResponseEntity<AuctionHouse>(registeredAuctionHouse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/houses/{id}")
     public ResponseEntity<Void> deleteAuctionHouse(@PathVariable("id") Long id) {
-        service.deleteAuctionHouse(id);
+        auctionHouseService.deleteAuctionHouse(id);
         return ResponseEntity.noContent().build();
     }
 }

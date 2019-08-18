@@ -25,10 +25,10 @@ public class UserBidService {
     private static final Logger logger = LoggerFactory.getLogger(UserBidService.class);
 
     @Autowired
-    AuctionRepository auctionRepository;
+    private AuctionRepository auctionRepository;
 
     @Autowired
-    UserBidRepository userBidRepository;
+    private UserBidRepository userBidRepository;
 
     public List<UserBid> retrieveUserBids() {
         // TODO list user from the most recent one to the eldest one

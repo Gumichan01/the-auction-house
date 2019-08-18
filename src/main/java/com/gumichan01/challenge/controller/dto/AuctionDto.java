@@ -21,7 +21,7 @@ public class AuctionDto {
     @JsonProperty(value = "current_price")
     private Double currentPrice;
     @JsonProperty(value = "house_id", required = true)
-    private Long houseId;
+    private Long auctionHouseId;
 
     public AuctionDto() {
     }
@@ -35,17 +35,17 @@ public class AuctionDto {
         this.endTime = auction.getEndTime();
         this.startPrice = auction.getStartPrice();
         this.currentPrice = auction.getCurrentPrice();
-        this.houseId = auction.getAuctionHouse().getId();
+        this.auctionHouseId = auction.getAuctionHouse().getId();
     }
 
-    public AuctionDto(String name, String description, Date startingTime, Date endTime, Double startPrice, Double currentPrice, Long houseId) {
+    public AuctionDto(String name, String description, Date startingTime, Date endTime, Double startPrice, Double currentPrice, Long auctionHouseId) {
         this.name = name;
         this.description = description;
         this.startingTime = startingTime;
         this.endTime = endTime;
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
-        this.houseId = houseId;
+        this.auctionHouseId = auctionHouseId;
     }
 
     public Long getId() {
@@ -104,12 +104,12 @@ public class AuctionDto {
         this.currentPrice = currentPrice;
     }
 
-    public Long getHouseId() {
-        return houseId;
+    public Long getAuctionHouseId() {
+        return auctionHouseId;
     }
 
-    public void setHouseId(Long houseId) {
-        this.houseId = houseId;
+    public void setAuctionHouseId(Long auctionHouseId) {
+        this.auctionHouseId = auctionHouseId;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class AuctionDto {
                 ", endTime=" + endTime +
                 ", startPrice=" + startPrice +
                 ", currentPrice=" + currentPrice +
-                ", houseId=" + houseId +
+                ", houseId=" + auctionHouseId +
                 '}';
     }
 }

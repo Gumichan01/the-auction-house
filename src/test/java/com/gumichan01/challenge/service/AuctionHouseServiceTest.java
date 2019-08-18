@@ -25,31 +25,31 @@ public class AuctionHouseServiceTest {
     private AuctionRepository auctionRepositoryMock;
 
     @Mock
-    private AuctionHouseRepository houseRepositoryMock;
+    private AuctionHouseRepository auctionHouseRepositoryMock;
 
     @InjectMocks
-    private AuctionHouseService service;
+    private AuctionHouseService auctionHouseService;
 
     @Test
     public void shouldRetrieveNotAuctionHouseFromEmptyRepository() {
-        when(houseRepositoryMock.findAll()).thenReturn(new ArrayList<>());
-        assertThat(service.retrieveAllAuctionHouses()).isEmpty();
+        when(auctionHouseRepositoryMock.findAll()).thenReturn(new ArrayList<>());
+        assertThat(auctionHouseService.retrieveAllAuctionHouses()).isEmpty();
     }
 
     @Test
     public void shouldReturnRegisteredAuctionHouse() {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house");
-        when(houseRepositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
-        assertThat(service.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
+        when(auctionHouseRepositoryMock.save(auctionHouse)).thenReturn(auctionHouse);
+        assertThat(auctionHouseService.registerAuctionHouse(auctionHouse)).isEqualTo(auctionHouse);
     }
 
     @Test(expected = AlreadyRegisteredException.class)
     public void shouldNotRegisterTheAuctionHouseTwice() {
         final AuctionHouse auctionHouse = new AuctionHouse("another mock house");
-        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
-        service.registerAuctionHouse(auctionHouse);
-        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);
-        service.registerAuctionHouse(auctionHouse);
+        when(auctionHouseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
+        auctionHouseService.registerAuctionHouse(auctionHouse);
+        when(auctionHouseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(auctionHouse);
+        auctionHouseService.registerAuctionHouse(auctionHouse);
     }
 
     @Test
@@ -57,11 +57,11 @@ public class AuctionHouseServiceTest {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house to delete");
         final Optional<AuctionHouse> optionalHouse = Optional.of(auctionHouse);
         auctionHouse.setId(1L);
-        when(auctionRepositoryMock.findAllByHouseId(auctionHouse.getId())).thenReturn(new ArrayList<>());
-        when(houseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
-        when(houseRepositoryMock.findById(auctionHouse.getId())).thenReturn(optionalHouse);
-        service.registerAuctionHouse(auctionHouse);
-        service.deleteAuctionHouse(auctionHouse.getId());
+        when(auctionRepositoryMock.findAllByAuctionHouseId(auctionHouse.getId())).thenReturn(new ArrayList<>());
+        when(auctionHouseRepositoryMock.findByName(auctionHouse.getName())).thenReturn(null);
+        when(auctionHouseRepositoryMock.findById(auctionHouse.getId())).thenReturn(optionalHouse);
+        auctionHouseService.registerAuctionHouse(auctionHouse);
+        auctionHouseService.deleteAuctionHouse(auctionHouse.getId());
     }
 
     @Test(expected = BadRequestException.class)
@@ -69,11 +69,11 @@ public class AuctionHouseServiceTest {
         final AuctionHouse auctionHouse = new AuctionHouse("mock house to delete");
         auctionHouse.setId(null);
         // No need to register the house first. The service must not perform the deletion
-        service.deleteAuctionHouse(auctionHouse.getId());
+        auctionHouseService.deleteAuctionHouse(auctionHouse.getId());
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void shouldThrowResourceNotFoundExceptionWhenTheHouseToDeleteDoesNotExist() {
-        service.deleteAuctionHouse(1L);
+        auctionHouseService.deleteAuctionHouse(1L);
     }
 }

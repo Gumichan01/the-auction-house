@@ -20,7 +20,7 @@ public class UserBidController {
     private static final Logger logger = LoggerFactory.getLogger(UserBidController.class);
 
     @Autowired
-    UserBidService service;
+    private UserBidService userBidService;
 
     @GetMapping("/")
     public String index() {
@@ -29,13 +29,13 @@ public class UserBidController {
 
     @GetMapping("/userbids/")
     public List<UserBidDto> retrieveUserBids() {
-        List<UserBid> userBids = service.retrieveUserBids();
+        List<UserBid> userBids = userBidService.retrieveUserBids();
         return generateDto(userBids);
     }
 
     @PostMapping("/userbids/")
     public ResponseEntity<UserBidDto> registerUserBid(@RequestBody UserBidDto userBidDto) {
-        UserBid userBid = service.registerUserBid(userBidDto);
+        UserBid userBid = userBidService.registerUserBid(userBidDto);
         return new ResponseEntity<>(new UserBidDto((userBid)), HttpStatus.CREATED);
     }
 

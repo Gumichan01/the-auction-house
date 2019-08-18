@@ -11,5 +11,5 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     public List<Auction> findAll();
 
     @Query("SELECT a FROM Auction a WHERE a.auctionHouse.id = ?1")
-    public List<Auction> findAllByHouseId(Long houseId);
+    public List<Auction> findAllByAuctionHouseId(Long auctionHouseId);
 }

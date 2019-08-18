@@ -28,24 +28,24 @@ public class AuctionHouseService {
     private AuctionRepository auctionRepository;
 
     @Autowired
-    private AuctionHouseRepository houseRepository;
+    private AuctionHouseRepository auctionHouseRepository;
 
     public List<AuctionHouse> retrieveAllAuctionHouses() {
-        return houseRepository.findAll();
+        return auctionHouseRepository.findAll();
     }
 
     public AuctionHouse registerAuctionHouse(AuctionHouse auctionHouse) {
-        AuctionHouse house = houseRepository.findByName(auctionHouse.getName());
+        AuctionHouse house = auctionHouseRepository.findByName(auctionHouse.getName());
         if (house != null) {
-            throw new AlreadyRegisteredException("The house is already registered.\n");
+            throw new AlreadyRegisteredException("The auction house is already registered.\n");
         }
-        logger.info("register " + auctionHouse.getName());
+        logger.info("Register " + auctionHouse.getName());
 
         if (auctionHouse.getName() == null) {
-            throw new BadRequestException("The house must have a name.\n");
+            throw new BadRequestException("The auction house must have a name.\n");
         }
 
-        return houseRepository.save(auctionHouse);
+        return auctionHouseRepository.save(auctionHouse);
     }
 
     public void deleteAuctionHouse(Long id) {
@@ -55,27 +55,28 @@ public class AuctionHouseService {
             throw new BadRequestException("Invalid request: no identifier provided.\n");
         }
 
-        Optional<AuctionHouse> optionalAuctionHouse = houseRepository.findById(id);
+        Optional<AuctionHouse> optionalAuctionHouse = auctionHouseRepository.findById(id);
         if (!optionalAuctionHouse.isPresent()) {
             throw new ResourceNotFoundException("Auction house to delete not found.\n");
         }
 
         AuctionHouse auctionHouse = optionalAuctionHouse.get();
-        List<Auction> auctionsByHouseId = auctionRepository.findAllByHouseId(auctionHouse.getId());
-        if (hasProcessingAuctions(auctionHouse, auctionsByHouseId)) {
-            throw new AuctionHouseConstraintViolationException("Cannot delete the house. Some auctions are started. Wait until this auction is terminated to delete it.\n");
+        List<Auction> auctionsByHouseId = auctionRepository.findAllByAuctionHouseId(auctionHouse.getId());
+        if (hasProcessingAuctions(auctionsByHouseId)) {
+            throw new AuctionHouseConstraintViolationException("Cannot delete the auction house. It is still processing auctions. " +
+                    "Wait until those auctions are terminated to delete it.\n");
         }
 
-        logger.info("Delete auctions related to this house");
+        logger.info("Delete auctions related to this auction house");
         auctionsByHouseId.forEach(auction -> logger.info(auction.toString()));
         auctionRepository.deleteAll(auctionsByHouseId);
         logger.info("delete the auction house: " + auctionHouse);
-        houseRepository.deleteById(id);
+        auctionHouseRepository.deleteById(id);
     }
 
-    public boolean hasProcessingAuctions(AuctionHouse auctionHouse, List<Auction> auctionsByHouseId) {
-        logger.info("auctions on this house: " + auctionsByHouseId.size());
-        List<Auction> auctionsAlreadyStarted = auctionsByHouseId.stream()
+    private boolean hasProcessingAuctions(List<Auction> auctionsByAuctionHouseId) {
+        logger.info("auctions related to this auction house: " + auctionsByAuctionHouseId.size());
+        List<Auction> auctionsAlreadyStarted = auctionsByAuctionHouseId.stream()
                 .filter(auction -> {
                     Instant now = Calendar.getInstance().getTime().toInstant();
                     return auction.getStartingTime().toInstant().isBefore(now) && auction.getEndTime().toInstant().isAfter(now);

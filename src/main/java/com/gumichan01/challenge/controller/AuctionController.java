@@ -20,25 +20,25 @@ public class AuctionController {
     private static final Logger logger = LoggerFactory.getLogger(AuctionHouseService.class);
 
     @Autowired
-    AuctionService service;
+    private AuctionService auctionService;
 
     // TODO bonus, list auctions based on their status - not started, running, terminated
 
     @GetMapping("/houses/auctions/{house_id}")
     public List<AuctionDto> retrieveAuctions(@PathVariable("house_id") Long houseId) {
-        List<Auction> auctions = service.retrieveAuctionsBy(houseId);
+        List<Auction> auctions = auctionService.retrieveAuctionsBy(houseId);
         return generateDto(auctions);
     }
 
     @PostMapping("/houses/auctions/")
     public ResponseEntity<AuctionDto> registerAuction(@RequestBody AuctionDto auctionDto) {
-        Auction auction = service.registerAuction(auctionDto);
+        Auction auction = auctionService.registerAuction(auctionDto);
         return new ResponseEntity<>(new AuctionDto(auction), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/houses/auctions/{id}")
     public ResponseEntity<Void> deleteAuction(@PathVariable Long id) {
-        service.deleteAuction(id);
+        auctionService.deleteAuction(id);
         return ResponseEntity.noContent().build();
     }
 

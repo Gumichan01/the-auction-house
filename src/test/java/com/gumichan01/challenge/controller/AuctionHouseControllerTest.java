@@ -28,7 +28,7 @@ public class AuctionHouseControllerTest {
     private static final String AUCTION_HOUSES_URL = "/houses";
 
     @Mock
-    private AuctionHouseService service;
+    private AuctionHouseService auctionHouseServiceMock;
 
     @InjectMocks
     private AuctionHouseController controller;
@@ -54,7 +54,7 @@ public class AuctionHouseControllerTest {
         String jsonRequestContent = "{\"name\":\"mock house\"}";
         AuctionHouse mockHouse = new AuctionHouse("mock house");
 
-        when(service.registerAuctionHouse(mockHouse)).thenReturn(mockHouse);
+        when(auctionHouseServiceMock.registerAuctionHouse(mockHouse)).thenReturn(mockHouse);
         this.mockMvc.perform(post(AUCTION_HOUSES_URL).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonRequestContent))
                 .andDo(print()).andExpect(status().isCreated());
