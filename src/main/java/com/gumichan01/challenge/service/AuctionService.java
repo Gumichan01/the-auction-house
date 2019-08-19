@@ -38,19 +38,7 @@ public class AuctionService {
         }
 
         List<Auction> allByAuctionHouseId = auctionRepository.findAllByAuctionHouseId(auctionHouseId);
-        return filterBy(allByAuctionHouseId, buildAuctionStatus(status));
-    }
-
-    private AuctionStatus buildAuctionStatus(String status) {
-        AuctionStatus auctionStatus = null;
-        try {
-            if (status != null) {
-                auctionStatus = AuctionStatus.valueOf(status.toUpperCase());
-            }
-        } catch (IllegalArgumentException e) {
-            logger.warn(e.getMessage());
-        }
-        return auctionStatus;
+        return filterBy(allByAuctionHouseId, AuctionStatus.build(status));
     }
 
     private List<Auction> filterBy(List<Auction> auctions, AuctionStatus status) {
