@@ -46,9 +46,11 @@ public class AuctionServiceTest {
 
     @Test(expected = InconsistentAuctionException.class)
     public void shouldThrowInconsistentAuctionExceptionDtoWithEndTimeBeforeStartingTime() {
-        Date startingTime = Calendar.getInstance().getTime();
+        Calendar instance1 = Calendar.getInstance();
+        Date startingTime = instance1.getTime();
+        Calendar instance2 = Calendar.getInstance();
+        instance2.set(Calendar.MINUTE, instance1.get(Calendar.MINUTE) - 10);
         Date endTime = Calendar.getInstance().getTime();
-        endTime.setMinutes(startingTime.getMinutes() - 10);
         AuctionDto dto = new AuctionDto("foo", "bar", startingTime, endTime, 42.0, 42.0);
         auctionService.registerAuction(1L, dto);
     }

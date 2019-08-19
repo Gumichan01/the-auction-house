@@ -72,7 +72,6 @@ public class AuctionHouseService {
                     "Wait until those auctions are terminated to delete it.\n");
         }
 
-
         Iterable<UserBid> userBidsByAuctionId = retrieveUserBidsByAuctionsToDelete(auctionsByHouseId);
         logger.info("Delete user bids related to every auctions");
         userBidsByAuctionId.forEach(userBid -> logger.info(userBid.toString()));

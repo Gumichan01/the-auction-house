@@ -39,8 +39,8 @@ public class ChallengeApplication {
             houseRepository.save(auctionHouse2);
             Auction gumiAuction = new Auction("gumi auction", "lorem ipsum", startTime, endTime, startPrice, auctionHouse);
             auctionRepository.save(gumiAuction);
-            auctionRepository.save(new Auction("baka auction", "lorem",startTime, endTime, startPrice, auctionHouse1));
-            auctionRepository.save(new Auction("lalalala", "lorem",startTime, endTime, startPrice, auctionHouse2));
+            auctionRepository.save(new Auction("baka auction", "lorem", startTime, endTime, startPrice, auctionHouse1));
+            auctionRepository.save(new Auction("lalalala", "lorem", startTime, endTime, startPrice, auctionHouse2));
             UserBid luno = new UserBid("luno", 128.0, gumiAuction);
             luno.setRegistrationDate(Calendar.getInstance().getTime());
             userBidRepository.save(luno);
