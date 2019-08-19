@@ -50,7 +50,7 @@ public class AuctionServiceTest {
         Date startingTime = instance1.getTime();
         Calendar instance2 = Calendar.getInstance();
         instance2.set(Calendar.MINUTE, instance1.get(Calendar.MINUTE) - 10);
-        Date endTime = Calendar.getInstance().getTime();
+        Date endTime = instance2.getTime();
         AuctionDto dto = new AuctionDto("foo", "bar", startingTime, endTime, 42.0, 42.0);
         auctionService.registerAuction(1L, dto);
     }
