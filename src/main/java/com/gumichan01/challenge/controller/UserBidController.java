@@ -22,12 +22,6 @@ public class UserBidController {
     @Autowired
     private UserBidService userBidService;
 
-    // TODO remove it
-    @GetMapping("/")
-    public String index() {
-        return "Challenge accepted - It works!";
-    }
-
     @GetMapping("auctions/{auction_id}/userbids")
     public List<UserBidDto> retrieveUserBids(@PathVariable("auction_id") Long auctionId) {
         List<UserBid> userBids = userBidService.retrieveUserBids(auctionId);
