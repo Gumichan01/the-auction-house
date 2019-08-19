@@ -99,7 +99,8 @@ public class AuctionService {
 
         Auction auctionToSave = new Auction(auctionDto);
         auctionToSave.setAuctionHouse(house);
-        auctionToSave.setCurrentPrice(null);
+        // At the beginning of the auction, I must force the current price to be the start price.
+        auctionToSave.setCurrentPrice(auctionDto.getStartPrice());
         logger.info("save " + auctionToSave);
         return auctionRepository.save(auctionToSave);
     }
