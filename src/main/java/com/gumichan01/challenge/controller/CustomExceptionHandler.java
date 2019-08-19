@@ -1,6 +1,6 @@
 package com.gumichan01.challenge.controller;
 
-import com.gumichan01.challenge.service.exception.*;
+import com.gumichan01.challenge.domain.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

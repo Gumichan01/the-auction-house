@@ -2,8 +2,8 @@ package com.gumichan01.challenge.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gumichan01.challenge.domain.AuctionHouse;
-import com.gumichan01.challenge.service.AuctionHouseService;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
+import com.gumichan01.challenge.domain.service.AuctionHouseService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

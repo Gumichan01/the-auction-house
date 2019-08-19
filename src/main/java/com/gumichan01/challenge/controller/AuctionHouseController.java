@@ -1,7 +1,7 @@
 package com.gumichan01.challenge.controller;
 
-import com.gumichan01.challenge.domain.AuctionHouse;
-import com.gumichan01.challenge.service.AuctionHouseService;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
+import com.gumichan01.challenge.domain.service.AuctionHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

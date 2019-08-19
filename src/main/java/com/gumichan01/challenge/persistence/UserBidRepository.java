@@ -1,6 +1,6 @@
 package com.gumichan01.challenge.persistence;
 
-import com.gumichan01.challenge.domain.UserBid;
+import com.gumichan01.challenge.domain.model.UserBid;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

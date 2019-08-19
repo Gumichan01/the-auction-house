@@ -1,11 +1,11 @@
-package com.gumichan01.challenge.service;
+package com.gumichan01.challenge.domain.service;
 
 
 import com.gumichan01.challenge.controller.dto.AuctionDto;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.InconsistentAuctionException;
+import com.gumichan01.challenge.domain.service.exception.BadRequestException;
+import com.gumichan01.challenge.domain.service.exception.InconsistentAuctionException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

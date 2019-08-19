@@ -1,9 +1,9 @@
 package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.controller.dto.AuctionDto;
-import com.gumichan01.challenge.domain.Auction;
-import com.gumichan01.challenge.service.AuctionHouseService;
-import com.gumichan01.challenge.service.AuctionService;
+import com.gumichan01.challenge.domain.model.Auction;
+import com.gumichan01.challenge.domain.service.AuctionHouseService;
+import com.gumichan01.challenge.domain.service.AuctionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

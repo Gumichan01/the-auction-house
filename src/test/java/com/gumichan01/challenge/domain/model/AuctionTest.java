@@ -1,5 +1,7 @@
-package com.gumichan01.challenge.domain;
+package com.gumichan01.challenge.domain.model;
 
+import com.gumichan01.challenge.domain.model.Auction;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
 import org.junit.Test;
 
 import java.util.Calendar;

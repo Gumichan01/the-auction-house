@@ -1,6 +1,6 @@
 package com.gumichan01.challenge.controller;
 
-import com.gumichan01.challenge.service.AuctionService;
+import com.gumichan01.challenge.domain.service.AuctionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

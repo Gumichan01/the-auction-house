@@ -1,15 +1,15 @@
-package com.gumichan01.challenge.service;
+package com.gumichan01.challenge.domain.service;
 
-import com.gumichan01.challenge.domain.Auction;
-import com.gumichan01.challenge.domain.AuctionHouse;
-import com.gumichan01.challenge.domain.UserBid;
+import com.gumichan01.challenge.domain.model.Auction;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
+import com.gumichan01.challenge.domain.model.UserBid;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.persistence.UserBidRepository;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
-import com.gumichan01.challenge.service.exception.StillRunningAuctionException;
+import com.gumichan01.challenge.domain.service.exception.AlreadyRegisteredException;
+import com.gumichan01.challenge.domain.service.exception.BadRequestException;
+import com.gumichan01.challenge.domain.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.domain.service.exception.StillRunningAuctionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

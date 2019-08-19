@@ -1,9 +1,9 @@
 package com.gumichan01.challenge.controller;
 
 import com.gumichan01.challenge.controller.dto.UserBidDto;
-import com.gumichan01.challenge.domain.UserBid;
-import com.gumichan01.challenge.service.UserBidService;
-import com.gumichan01.challenge.service.exception.UserBidMadeByTheUserTwiceInARowException;
+import com.gumichan01.challenge.domain.model.UserBid;
+import com.gumichan01.challenge.domain.service.UserBidService;
+import com.gumichan01.challenge.domain.service.exception.UserBidMadeByTheUserTwiceInARowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

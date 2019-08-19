@@ -1,4 +1,4 @@
-package com.gumichan01.challenge.service.exception;
+package com.gumichan01.challenge.domain.service.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String msg) {

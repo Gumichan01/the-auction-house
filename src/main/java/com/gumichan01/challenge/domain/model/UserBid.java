@@ -1,4 +1,4 @@
-package com.gumichan01.challenge.domain;
+package com.gumichan01.challenge.domain.model;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,8 +1,8 @@
 package com.gumichan01.challenge;
 
-import com.gumichan01.challenge.domain.Auction;
-import com.gumichan01.challenge.domain.AuctionHouse;
-import com.gumichan01.challenge.domain.UserBid;
+import com.gumichan01.challenge.domain.model.Auction;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
+import com.gumichan01.challenge.domain.model.UserBid;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.persistence.UserBidRepository;
@@ -23,30 +23,10 @@ public class ChallengeApplication {
     }
 
     @Bean
-    public CommandLineRunner index(AuctionRepository auctionRepository, AuctionHouseRepository houseRepository, UserBidRepository userBidRepository) {
+    public CommandLineRunner preloadAuctionHousesFrom(AuctionHouseRepository auctionHouseRepository) {
         return args -> {
-            Calendar instance = Calendar.getInstance();
-            instance.add(Calendar.DAY_OF_MONTH, -1);
-            Date startTime = instance.getTime();
-            instance.add(Calendar.DAY_OF_MONTH, 1);
-            Date endTime = instance.getTime();
-            AuctionHouse auctionHouse = new AuctionHouse("gumi house");
-            double startPrice = 42.0;
-            houseRepository.save(auctionHouse);
-            AuctionHouse auctionHouse1 = new AuctionHouse("luka house");
-            houseRepository.save(auctionHouse1);
-            AuctionHouse auctionHouse2 = new AuctionHouse("teto house");
-            houseRepository.save(auctionHouse2);
-            Auction gumiAuction = new Auction("gumi auction", "lorem ipsum", startTime, endTime, startPrice, auctionHouse);
-            auctionRepository.save(gumiAuction);
-            auctionRepository.save(new Auction("baka auction", "lorem", startTime, endTime, startPrice, auctionHouse1));
-            auctionRepository.save(new Auction("lalalala", "lorem", startTime, endTime, startPrice, auctionHouse2));
-            UserBid luno = new UserBid("luno", 128.0, gumiAuction);
-            luno.setRegistrationDate(Calendar.getInstance().getTime());
-            userBidRepository.save(luno);
-            UserBid leon = new UserBid("leon", 256.0, gumiAuction);
-            leon.setRegistrationDate(Calendar.getInstance().getTime());
-            userBidRepository.save(leon);
+            AuctionHouse auctionHouse = new AuctionHouse("gumi auction house");
+            auctionHouseRepository.save(auctionHouse);
         };
     }
 }

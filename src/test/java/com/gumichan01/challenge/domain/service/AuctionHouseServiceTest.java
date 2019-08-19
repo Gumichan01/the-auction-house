@@ -1,12 +1,12 @@
-package com.gumichan01.challenge.service;
+package com.gumichan01.challenge.domain.service;
 
-import com.gumichan01.challenge.domain.AuctionHouse;
+import com.gumichan01.challenge.domain.model.AuctionHouse;
 import com.gumichan01.challenge.persistence.AuctionHouseRepository;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.persistence.UserBidRepository;
-import com.gumichan01.challenge.service.exception.AlreadyRegisteredException;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.domain.service.exception.AlreadyRegisteredException;
+import com.gumichan01.challenge.domain.service.exception.BadRequestException;
+import com.gumichan01.challenge.domain.service.exception.ResourceNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

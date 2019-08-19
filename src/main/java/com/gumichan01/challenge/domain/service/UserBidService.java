@@ -1,14 +1,14 @@
-package com.gumichan01.challenge.service;
+package com.gumichan01.challenge.domain.service;
 
 import com.gumichan01.challenge.controller.dto.UserBidDto;
-import com.gumichan01.challenge.domain.Auction;
-import com.gumichan01.challenge.domain.UserBid;
+import com.gumichan01.challenge.domain.model.Auction;
+import com.gumichan01.challenge.domain.model.UserBid;
 import com.gumichan01.challenge.persistence.AuctionRepository;
 import com.gumichan01.challenge.persistence.UserBidRepository;
-import com.gumichan01.challenge.service.exception.BadRequestException;
-import com.gumichan01.challenge.service.exception.ResourceNotFoundException;
-import com.gumichan01.challenge.service.exception.UserBidConstraintController;
-import com.gumichan01.challenge.service.exception.UserBidMadeByTheUserTwiceInARowException;
+import com.gumichan01.challenge.domain.service.exception.BadRequestException;
+import com.gumichan01.challenge.domain.service.exception.ResourceNotFoundException;
+import com.gumichan01.challenge.domain.service.exception.UserBidConstraintController;
+import com.gumichan01.challenge.domain.service.exception.UserBidMadeByTheUserTwiceInARowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

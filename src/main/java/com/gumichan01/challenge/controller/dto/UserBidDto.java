@@ -1,7 +1,7 @@
 package com.gumichan01.challenge.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gumichan01.challenge.domain.UserBid;
+import com.gumichan01.challenge.domain.model.UserBid;
 
 import java.util.Date;
 
