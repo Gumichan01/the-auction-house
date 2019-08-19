@@ -13,19 +13,25 @@ Test:
 ```
 ./mvnw test         # or mvn test
 ```
-If you just want to launch aht webapp:
+If you just want to launch the webapp:
 ```
 ./mvnw spring-boot:run
 ```
 
-## Test the app manually ##
+## Notes about the Web Application ##
+
+- The format I use to send and retrieve data is in JSON.
+- I use GET, POST, and DELETE as HTTP requests.
+- I chose Spring (Spring Boot) to develop the application.
+
+## Test the app ##
 
 ### Auction house ###
 
 Add an auction house:
 
 ```
-curl -i -H Content-Type: application/json -d '{"name":"foo"}' localhost:8080/auction-houses
+curl -i -H "Content-Type: application/json" -d '{"name":"foo"}' localhost:8080/auction-houses
 ```
 
 List all auction houses:
