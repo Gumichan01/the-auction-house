@@ -31,6 +31,7 @@ If you just want to launch the webapp:
 auction current price and the auction is running.
 - An auction house/auction cannot be added twice.
 - An user cannot bid twice in row in a same auction.
+- An auction house is preloaded for test purpose.
 
 
 ## Test the app ##
