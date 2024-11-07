@@ -1,4 +1,6 @@
-# Java Challenge #
+# The Auction House #
+
+Just a REST aplication made in Java with Spring that simulate an auction house.
 
 ## Build ##
 
@@ -13,7 +15,7 @@ Test:
 ```
 ./mvnw test         # or mvn test
 ```
-If you just want to launch the webapp:
+If you just want to launch the app:
 ```
 ./mvnw spring-boot:run
 ```
